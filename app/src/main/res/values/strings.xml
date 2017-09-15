@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2013 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources>
+    <string name="app_name">LD BLE TEXT</string>
+    <string name="ble_not_supported">BLE is not supported</string>
+    <string name="label_data">Data:</string>
+    <string name="label_device_address">Device address:</string>
+    <string name="label_state">State:</string>
+    <string name="no_data">No data</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="title_devices">BLE SPP</string>
+    <string name="error_bluetooth_not_supported">Bluetooth not supported.</string>
+
+    <string name="unknown_device">Unknown device</string>
+    <string name="unknown_characteristic">Unknown characteristic</string>
+    <string name="unknown_service">Unknown service</string>
+
+    <!-- Menu items -->
+    <string name="menu_connect">Connect</string>
+    <string name="menu_disconnect">Disconnect</string>
+    <string name="menu_scan">Scan</string>
+    <string name="menu_stop">Stop</string>
+
+    <string name="device_name_default">Device Name</string>
+    <string name="receive_byte">Recv Bytes：</string>
+    <string name="data_format_default">Ascii</string>
+    <string name="data_format_hex">Hex</string>
+    <string name="clean">clean</string>
+    <string name="send_byte">Send Bytes：</string>
+    <string name="send">send</string>
+    <string name="scan_ble_device">Scan BLE Device</string>
+    <string name="device_name">name</string>
+    <string name="device_address">address</string>
+    <string name="scanning">Scanning......</string>
+    <string name="zero">0</string>
+    <string name="speed">0 B/s</string>
+    <string name="ble_need_location">Android6.0蓝牙需要开启</string>
+
+    <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
+
+
+</resources>
