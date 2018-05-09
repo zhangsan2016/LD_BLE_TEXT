@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,6 +91,19 @@ public class FunctionActivity2 extends Activity implements View.OnClickListener 
 
     private Button bt_read_electric_parameter;
     private Button bt_read_calibration, bt_write_calibration; // 读写标定
+
+
+    private EditText etSendContent;
+    private EditText etSendTimeInterval;
+    private EditText etSendbao;
+    private EditText etSendwuxiaobao;
+    private EditText etLosebao;
+    private EditText etRecyouxiaobao;
+    private Button sendOrder;
+    private Button sendPause;
+    private Button reset;
+    private ScrollView scrollView;
+    private TextView tv_message;
 
 
     private Handler upHandler = new Handler() {
@@ -337,7 +352,21 @@ public class FunctionActivity2 extends Activity implements View.OnClickListener 
 
     private void intitView() {
 
+        etSendContent = (EditText) findViewById(R.id.et_send_content);
+        etSendTimeInterval = (EditText) findViewById(R.id.et_sendTimeInterval);
+        etSendbao = (EditText) findViewById(R.id.et_sendbao);
+        etSendwuxiaobao = (EditText) findViewById(R.id.et_sendwuxiaobao);
+        etLosebao = (EditText) findViewById(R.id.et_losebao);
+        etRecyouxiaobao = (EditText) findViewById(R.id.et_recyouxiaobao);
+        sendOrder = (Button) findViewById(R.id.sendOrder);
+        sendPause = (Button) findViewById(R.id.sendPause);
+        reset = (Button) findViewById(R.id.reset);
+        scrollView = (ScrollView) findViewById(R.id.scrollView);
+        tv_message = (TextView) findViewById(R.id.tv_message);
 
+        sendOrder.setOnClickListener(this);
+        sendPause.setOnClickListener(this);
+        reset.setOnClickListener(this);
 
     }
 
@@ -539,6 +568,7 @@ public class FunctionActivity2 extends Activity implements View.OnClickListener 
 
     }
 
+    boolean flag = true;
 
     @Override
     public void onClick(View v) {
@@ -549,6 +579,55 @@ public class FunctionActivity2 extends Activity implements View.OnClickListener 
                 // EE 00 00 1E 00 64 00 00 00 00 00 00 00 00 00 00 00 FF 95 75 EF
 
                 sendStartLamp(100);
+
+                break;
+            case R.id.sendOrder:
+                // EE 00 00 1E 00 64 00 00 00 00 00 00 00 00 00 00 00 FF 95 75 EF
+
+
+                final StringBuffer stringBuffer = new StringBuffer();
+
+
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        //execute the task
+                        flag = false;
+                    }
+                }, 10000);
+
+
+                new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+
+                        while (flag) {
+                            stringBuffer.append("file content is empty!" + "/n");
+
+                        }
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+
+                            public void run() {
+
+                            }
+
+                        });
+
+                    }
+                }.start();
+
+
+                break;
+            case R.id.sendPause:
+                // EE 00 00 1E 00 64 00 00 00 00 00 00 00 00 00 00 00 FF 95 75 EF
+
+
+                break;
+            case R.id.reset:
+                // EE 00 00 1E 00 64 00 00 00 00 00 00 00 00 00 00 00 FF 95 75 EF
+
 
                 break;
 
@@ -610,9 +689,6 @@ public class FunctionActivity2 extends Activity implements View.OnClickListener 
         }.start();
 
     }
-
-
-
 
 
     /**

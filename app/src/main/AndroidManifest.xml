@@ -46,6 +46,7 @@
 
         <!--自添加apk-->
         <activity android:name=".act.FunctionActivity" />
+        <activity android:name=".act.FunctionActivity2" />
 
         <activity
             android:name=".act.MipcaActivityCapture"
