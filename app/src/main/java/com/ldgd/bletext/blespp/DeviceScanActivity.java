@@ -76,6 +76,7 @@ public class DeviceScanActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         getActionBar().setTitle(R.string.title_devices);
         mHandler = new Handler();
+        mLeDeviceListAdapter = new LeDeviceListAdapter();
 
         // Use this check to determine whether BLE is supported on the device.  Then you can
         // selectively disable BLE-related features.
@@ -145,7 +146,7 @@ public class DeviceScanActivity extends ListActivity {
         } //
 
         // Initializes list view adapter.
-        mLeDeviceListAdapter = new LeDeviceListAdapter();
+
         setListAdapter(mLeDeviceListAdapter);
         scanLeDevice(true);
     }

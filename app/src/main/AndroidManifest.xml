@@ -15,7 +15,7 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
-
+<!--app说明，这个版本有两个控制界面，FunctionActivity和FunctionActivity2-->
 
     <!-- Min/target SDK versions (<uses-sdk>) managed by build.gradle -->
 
