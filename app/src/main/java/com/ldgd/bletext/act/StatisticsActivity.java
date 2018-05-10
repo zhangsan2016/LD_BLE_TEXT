@@ -116,7 +116,7 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
     private int loseCount = 0; // 丢包数
     private int nBrace = 0;  // 无效包
     private int yBrace = 0;  // 有效包
-  private   StringBuffer stringBuffer = new StringBuffer();
+    private   StringBuffer stringBuffer = new StringBuffer();
 
     private Handler upHandler = new Handler() {
         @Override
@@ -124,14 +124,19 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
             super.handleMessage(msg);
 
             byte[] data = msg.getData().getByteArray("data");
-            stringBuffer.append(Arrays.toString(data) +  "\n");
-            tv_message.setText(stringBuffer.toString());
+            if(data.length > 0){
+                stringBuffer.append(Arrays.toString(data) +  "\n");
+                tv_message.setText(stringBuffer.toString());
+            }
+
 
             switch (msg.what) {
                 case COUNT:
 
                     // 获取CRC
-                    byte[] crc = checkCRC.crc(data);
+                   byte[] crcData = new byte[data.length-2];
+                    System.arraycopy(data,0,crcData,0,data.length-2);
+                    byte[] crc = checkCRC.crc(crcData);
                     LogUtil.e("crc = " + Arrays.toString(crc));
 
                     // 校验crc
@@ -219,7 +224,7 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
 
             } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-                mConnected = false;
+                 mConnected = false;
                 updateConnectionState(R.string.disconnected);
                 invalidateOptionsMenu();
                 mBluetoothLeService.connect(mDeviceAddress);
@@ -239,6 +244,12 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 
                 //     displayData(intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA));
 
+                byte[] data = intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA);
+                if(data.length == 20){
+                    stringBuffer.append(Arrays.toString(data) + "\n");
+                    tv_message.setText(stringBuffer.toString());
+                    return;
+                }
 
                 showData(intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA));
 
@@ -700,7 +711,9 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
              * 定时发送
              */
              instruct = instruct ++;
-            //sendOrder(instruct % 127);
+
+            sendOrder((byte) (instruct%127));
+
 
         }
 
