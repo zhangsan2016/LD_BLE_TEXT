@@ -38,6 +38,8 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.ldgd.bletext.R.id.et_sendTimeInterval;
+
 
 /**
  * For a given BLE device, this Activity provides the user interface to connect, display data,
@@ -45,8 +47,8 @@ import java.util.TimerTask;
  * communicates with {@code BluetoothLeService}, which in turn interacts with the
  * Bluetooth LE API.
  */
-public class FunctionActivity2 extends Activity implements View.OnClickListener {
-    private final static String TAG = FunctionActivity2.class.getSimpleName();
+public class StatisticsActivity extends Activity implements View.OnClickListener {
+    private final static String TAG = StatisticsActivity.class.getSimpleName();
 
     private static final int SHOW_PROGRESS = 0;  // 显示加载框
     private static final int STOP_PROGRESS = -1;  // 关闭加载框
@@ -58,6 +60,9 @@ public class FunctionActivity2 extends Activity implements View.OnClickListener 
     private static final int READ_VERSIONS_FIRMWARE = 4; // 读取固件版本号
     private static final int READ_CHIPID = 5;  // 读取芯片ID
     private static final int SHOW_TOAST = 6;
+
+    private static final int COUNT = 7; // 统计
+    private static final int COUNT_SEND = 8;
 
 
     static long recv_cnt = 0;
@@ -85,6 +90,7 @@ public class FunctionActivity2 extends Activity implements View.OnClickListener 
     int sendDataLen = 0;
     byte[] sendBuf;
 
+
     //测速
     private Timer timer;
     private TimerTask task;
@@ -106,12 +112,46 @@ public class FunctionActivity2 extends Activity implements View.OnClickListener 
     private TextView tv_message;
 
 
+    private int sendCount = 0;  // 发包数
+    private int loseCount = 0; // 丢包数
+    private int nBrace = 0;  // 无效包
+    private int yBrace = 0;  // 有效包
+  private   StringBuffer stringBuffer = new StringBuffer();
+
     private Handler upHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+
             byte[] data = msg.getData().getByteArray("data");
+            stringBuffer.append(Arrays.toString(data) +  "\n");
+            tv_message.setText(stringBuffer.toString());
+
             switch (msg.what) {
+                case COUNT:
+
+                    // 获取CRC
+                    byte[] crc = checkCRC.crc(data);
+
+                    // 校验crc
+                    if (true) {
+                        yBrace++;
+                    } else {
+                        nBrace++;
+                    }
+
+                    //  计算丢包数 loseCount = sendCount - (nBrace + yBrace);
+                    loseCount = sendCount - (nBrace + yBrace); // 丢包数
+
+                    break;
+
+                case COUNT_SEND:
+                    // 统计
+                    sendCount++;
+                    loseCount = sendCount - (nBrace + yBrace); // 丢包数
+
+                    break;
+
                 case SHOW_PROGRESS:
                     showProgress();
                     break;
@@ -120,10 +160,9 @@ public class FunctionActivity2 extends Activity implements View.OnClickListener 
                     break;
                 case SHOW_TOAST:
                     String src = (String) msg.obj;
-                    Toast.makeText(FunctionActivity2.this, src, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StatisticsActivity.this, src, Toast.LENGTH_SHORT).show();
 
                 case UP_ELECTRIC_PARAMETER:
-
 
                     break;
 
@@ -132,6 +171,10 @@ public class FunctionActivity2 extends Activity implements View.OnClickListener 
         }
     };
     private byte[] splitId;
+    private PollingTask pollingTask;
+    private Timer pollingtimer;
+    private byte instruct = 0;
+
 
     /**
      * 得到当前Android系统的时间
@@ -198,6 +241,7 @@ public class FunctionActivity2 extends Activity implements View.OnClickListener 
 
                 showData(intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA));
 
+
             } else if (BluetoothLeService.ACTION_WRITE_SUCCESSFUL.equals(action)) {
                 if (sendDataLen > 0) {
                     Log.v("log", "Write OK,Send again");
@@ -258,6 +302,13 @@ public class FunctionActivity2 extends Activity implements View.OnClickListener 
                 bundle.putByteArray("data", byteArrayExtra);
                 message.setData(bundle);
                 message.what = READ_CHIPID;
+                upHandler.sendMessage(message);
+            } else {
+                Message message = Message.obtain();
+                Bundle bundle = new Bundle();
+                bundle.putByteArray("data", byteArrayExtra);
+                message.setData(bundle);
+                message.what = COUNT;
                 upHandler.sendMessage(message);
             }
         }
@@ -353,7 +404,7 @@ public class FunctionActivity2 extends Activity implements View.OnClickListener 
     private void intitView() {
 
         etSendContent = (EditText) findViewById(R.id.et_send_content);
-        etSendTimeInterval = (EditText) findViewById(R.id.et_sendTimeInterval);
+        etSendTimeInterval = (EditText) findViewById(et_sendTimeInterval);
         etSendbao = (EditText) findViewById(R.id.et_sendbao);
         etSendwuxiaobao = (EditText) findViewById(R.id.et_sendwuxiaobao);
         etLosebao = (EditText) findViewById(R.id.et_losebao);
@@ -575,7 +626,7 @@ public class FunctionActivity2 extends Activity implements View.OnClickListener 
         switch (v.getId()) {
 
             case R.id.bt_fully_on:  // 全开
-                Toast.makeText(FunctionActivity2.this, "全开", Toast.LENGTH_SHORT).show();
+                Toast.makeText(StatisticsActivity.this, "全开", Toast.LENGTH_SHORT).show();
                 // EE 00 00 1E 00 64 00 00 00 00 00 00 00 00 00 00 00 FF 95 75 EF
 
                 sendStartLamp(100);
@@ -585,52 +636,116 @@ public class FunctionActivity2 extends Activity implements View.OnClickListener 
                 // EE 00 00 1E 00 64 00 00 00 00 00 00 00 00 00 00 00 FF 95 75 EF
 
 
-                final StringBuffer stringBuffer = new StringBuffer();
+                if (mConnected) {
 
+                    // 关闭定时器
+                    closeTimer();
 
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        //execute the task
-                        flag = false;
-                    }
-                }, 10000);
-
-
-                new Thread() {
-                    @Override
-                    public void run() {
-                        super.run();
-
-                        while (flag) {
-                            stringBuffer.append("file content is empty!" + "/n");
-
-                        }
-                        runOnUiThread(new Runnable() {
-
-                            @Override
-
-                            public void run() {
-
-                            }
-
-                        });
-
-                    }
-                }.start();
-
+                    int pollingTime = Integer.parseInt(etSendTimeInterval.getText()
+                            .toString().trim());
+                    pollingtimer = new Timer();
+                    pollingTask = new PollingTask();
+                    pollingtimer.schedule(pollingTask, new Date(), pollingTime * 1000);
+                } else {
+                    Toast.makeText(StatisticsActivity.this, "请先等待蓝牙接口连接成功再发送数据请求", Toast.LENGTH_SHORT).show();
+                }
 
                 break;
             case R.id.sendPause:
                 // EE 00 00 1E 00 64 00 00 00 00 00 00 00 00 00 00 00 FF 95 75 EF
 
+                // 关闭定时器
+                closeTimer();
 
                 break;
             case R.id.reset:
-                // EE 00 00 1E 00 64 00 00 00 00 00 00 00 00 00 00 00 FF 95 75 EF
 
+                sendCount = 0;  // 丢包数
+                loseCount = 0; // 发包数
+                nBrace = 0;  // 无效包
+                yBrace = 0;
 
                 break;
 
+        }
+    }
+
+
+
+    class PollingTask extends TimerTask {
+
+        @Override
+        public void run() {
+
+            /**
+             * 定时发送
+             */
+             instruct = instruct ++;
+            //sendOrder(instruct % 127);
+
+        }
+
+    }
+
+    private void sendOrder(final byte instruct) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    final byte[] buf = new byte[20];
+
+                    buf[0] = -18;
+                    buf[1] = 0;
+                    buf[2] = 0;
+                    buf[3] = instruct; // 指令
+                    buf[4] = 0;
+                    buf[5] = 0;
+                    buf[6] = 0;
+
+                    buf[17] = 0;
+                    buf[18] = 0;  // CRC
+                    buf[19] = 0;
+                    //    buf[20] = -17;   // 帧尾
+
+
+                    // 截取数组做CRC校验
+                    final byte[] buf2 = new byte[18];
+                    LogUtil.e(Arrays.toString(buf2));
+
+                    System.arraycopy(buf, 0, buf2, 0, 18);
+                    // 获取CRC
+                    byte[] crc = checkCRC.crc(buf2);
+                    // 添加CRC
+                    System.arraycopy(crc, 0, buf, 18, 2);
+
+                    mBluetoothLeService.writeData(buf);
+
+                  //  mBluetoothLeService.writeData(new byte[]{-17});
+
+
+                    // 通知更新统计数
+                    upHandler.sendEmptyMessage(COUNT_SEND);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
+
+    }
+
+    private void closeTimer() {
+
+        if (pollingTask != null) {
+            pollingTask.cancel();
+            pollingTask = null;
+        }
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
         }
     }
 

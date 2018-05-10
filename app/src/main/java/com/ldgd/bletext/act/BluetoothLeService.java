@@ -80,8 +80,18 @@ public class BluetoothLeService extends Service {
     private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+
+            if (status != BluetoothGatt.GATT_SUCCESS) {
+                String err = "Cannot connect device with error status: " + status;
+                // 当尝试连接失败的时候调用 disconnect 方法是不会引起这个方法回调的，所以这里
+                //   直接回调就可以了。
+                mBluetoothGatt.close();
+                Log.e(TAG, err);
+                return;
+            }
+
             String intentAction;
-            if (newState == BluetoothProfile.STATE_CONNECTED) {
+            if (newState == BluetoothProfile.STATE_CONNECTED) { // 连接成功时调用
                 intentAction = ACTION_GATT_CONNECTED;
                 mConnectionState = STATE_CONNECTED;
                 broadcastUpdate(intentAction);
@@ -90,11 +100,13 @@ public class BluetoothLeService extends Service {
                 Log.i(TAG, "Attempting to start service discovery:" +
                         mBluetoothGatt.discoverServices());
 
-            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {// 断开连接时调用
                 intentAction = ACTION_GATT_DISCONNECTED;
                 mConnectionState = STATE_DISCONNECTED;
                 Log.i(TAG, "Disconnected from GATT server.");
                 broadcastUpdate(intentAction);
+                mBluetoothGatt.close();
+
             }
         }
 

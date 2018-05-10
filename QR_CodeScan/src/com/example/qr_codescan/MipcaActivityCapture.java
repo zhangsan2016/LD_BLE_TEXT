@@ -52,14 +52,14 @@ public class MipcaActivityCapture extends Activity implements Callback {
 		//ViewUtil.addTopView(getApplicationContext(), this, R.string.scan_card);
 		CameraManager.init(getApplication());
 		viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
-		
+
 		Button mButtonBack = (Button) findViewById(R.id.button_back);
 		mButtonBack.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				MipcaActivityCapture.this.finish();
-				
+
 			}
 		});
 		hasSurface = false;
@@ -87,7 +87,7 @@ public class MipcaActivityCapture extends Activity implements Callback {
 		}
 		initBeepSound();
 		vibrate = true;
-		
+
 	}
 
 	@Override
@@ -105,9 +105,9 @@ public class MipcaActivityCapture extends Activity implements Callback {
 		inactivityTimer.shutdown();
 		super.onDestroy();
 	}
-	
+
 	/**
-	 * 处理扫描结果
+	 * 澶勭悊鎵弿缁撴灉
 	 * @param result
 	 * @param barcode
 	 */
@@ -121,13 +121,13 @@ public class MipcaActivityCapture extends Activity implements Callback {
 			Intent resultIntent = new Intent();
 			Bundle bundle = new Bundle();
 			bundle.putString("result", resultString);
-		//	bundle.putParcelable("bitmap", barcode);
+			//	bundle.putParcelable("bitmap", barcode);
 			resultIntent.putExtras(bundle);
 			this.setResult(RESULT_OK, resultIntent);
 		}
 		MipcaActivityCapture.this.finish();
 	}
-	
+
 	private void initCamera(SurfaceHolder surfaceHolder) {
 		try {
 			CameraManager.get().openDriver(surfaceHolder);
@@ -144,7 +144,7 @@ public class MipcaActivityCapture extends Activity implements Callback {
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
+							   int height) {
 
 	}
 

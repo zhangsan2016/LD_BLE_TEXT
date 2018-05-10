@@ -15,7 +15,7 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
-<!--app说明，这个版本有两个控制界面，FunctionActivity和FunctionActivity2-->
+<!--app说明，这个版本有两个控制界面，FunctionActivity和StatisticsActivity（统计界面）-->
 
     <!-- Min/target SDK versions (<uses-sdk>) managed by build.gradle -->
 
@@ -46,7 +46,7 @@
 
         <!--自添加apk-->
         <activity android:name=".act.FunctionActivity" />
-        <activity android:name=".act.FunctionActivity2" />
+        <activity android:name=".act.StatisticsActivity" />
 
         <activity
             android:name=".act.MipcaActivityCapture"

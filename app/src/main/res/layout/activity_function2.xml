@@ -20,21 +20,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send ： EE" />
+            android:text="Send ： " />
 
         <EditText
             android:id="@+id/et_send_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="000000000000000000000"
+            android:text="00000000000000000000"
             android:textSize="10sp" />
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="EF" />
+            android:text=" " />
     </LinearLayout>
 
 
@@ -165,6 +165,20 @@
         android:layout_height="wrap_content"
         android:text="重新开始计数"></Button>
 
+
+    <TextView
+        android:padding="5dp"
+        android:id="@+id/tv_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="false"
+        android:background="@drawable/edit_box_bg"
+        android:maxLines="10000"
+        android:scrollbars="vertical"
+        android:text="file content is empty!" />
+
+
+
     <ScrollView
 
         android:id="@+id/scrollView"
@@ -178,13 +192,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_message"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fadeScrollbars="false"
-                android:scrollbars="vertical"
-                android:text="file content is empty!" />
+
+
 
 
         </LinearLayout>

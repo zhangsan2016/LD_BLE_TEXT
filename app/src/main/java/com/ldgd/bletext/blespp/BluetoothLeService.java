@@ -88,6 +88,7 @@ public class BluetoothLeService extends Service {
                 intentAction = ACTION_GATT_CONNECTED;
                 mConnectionState = STATE_CONNECTED;
                 broadcastUpdate(intentAction);
+                Log.i(TAG, "status = " + status);
                 Log.i(TAG, "Connected to GATT server.");
                 // Attempts to discover services after successful connection.
                 Log.i(TAG, "Attempting to start service discovery:" +
@@ -262,6 +263,7 @@ public class BluetoothLeService extends Service {
         }
         // We want to directly connect to the device, so we are setting the autoConnect
         // parameter to false.
+       // mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
         mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
         Log.d(TAG, "Trying to create a new connection.");
         mBluetoothDeviceAddress = address;

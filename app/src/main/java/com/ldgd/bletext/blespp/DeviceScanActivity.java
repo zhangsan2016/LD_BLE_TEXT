@@ -45,7 +45,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ldgd.bletext.R;
-import com.ldgd.bletext.act.FunctionActivity2;
+import com.ldgd.bletext.act.StatisticsActivity;
 
 import java.util.ArrayList;
 
@@ -149,6 +149,7 @@ public class DeviceScanActivity extends ListActivity {
 
         setListAdapter(mLeDeviceListAdapter);
         scanLeDevice(true);
+        mLeDeviceListAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -172,9 +173,9 @@ public class DeviceScanActivity extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         final BluetoothDevice device = mLeDeviceListAdapter.getDevice(position);
         if (device == null) return;
-        final Intent intent = new Intent(this, FunctionActivity2.class);
-        intent.putExtra(FunctionActivity2.EXTRAS_DEVICE_NAME, device.getName());
-        intent.putExtra(FunctionActivity2.EXTRAS_DEVICE_ADDRESS, device.getAddress());
+        final Intent intent = new Intent(this, StatisticsActivity.class);
+        intent.putExtra(StatisticsActivity.EXTRAS_DEVICE_NAME, device.getName());
+        intent.putExtra(StatisticsActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress());
         if (mScanning) {
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
             mScanning = false;
