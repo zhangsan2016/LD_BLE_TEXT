@@ -80,6 +80,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/sendCount"
                 android:textSize="10sp" />
+
         </LinearLayout>
 
         <LinearLayout

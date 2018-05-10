@@ -132,6 +132,7 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 
                     // 获取CRC
                     byte[] crc = checkCRC.crc(data);
+                    LogUtil.e("crc = " + Arrays.toString(crc));
 
                     // 校验crc
                     if (true) {
@@ -142,14 +143,14 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 
                     //  计算丢包数 loseCount = sendCount - (nBrace + yBrace);
                     loseCount = sendCount - (nBrace + yBrace); // 丢包数
-
+                    UpdateStatistics();
                     break;
 
                 case COUNT_SEND:
                     // 统计
                     sendCount++;
                     loseCount = sendCount - (nBrace + yBrace); // 丢包数
-
+                    UpdateStatistics();
                     break;
 
                 case SHOW_PROGRESS:
@@ -419,7 +420,23 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
         sendPause.setOnClickListener(this);
         reset.setOnClickListener(this);
 
+
+
+
     }
+
+
+    /**
+     * 更新统计数据
+     */
+   private void UpdateStatistics(){
+
+       etSendbao.setText(sendCount + "");
+       etLosebao.setText(loseCount + "");
+       etRecyouxiaobao.setText(nBrace + "");
+       etSendwuxiaobao.setText(yBrace + "");
+
+   }
 
     @Override
     protected void onResume() {
@@ -664,6 +681,8 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
                 loseCount = 0; // 发包数
                 nBrace = 0;  // 无效包
                 yBrace = 0;
+
+                UpdateStatistics();
 
                 break;
 
