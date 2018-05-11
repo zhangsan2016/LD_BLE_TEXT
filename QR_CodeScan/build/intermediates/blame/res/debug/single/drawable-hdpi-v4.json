@@ -1,11 +1,11 @@
 [
     {
-        "merged": "C:\\Users\\ldgd\\Desktop\\project\\studio project\\LD_BLE_TEXT\\QR_CodeScan\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\mm_title_back_pressed.9.PNG",
-        "source": "C:\\Users\\ldgd\\Desktop\\project\\studio project\\LD_BLE_TEXT\\QR_CodeScan\\res\\drawable-hdpi\\mm_title_back_pressed.9.PNG"
-    },
-    {
         "merged": "C:\\Users\\ldgd\\Desktop\\project\\studio project\\LD_BLE_TEXT\\QR_CodeScan\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\mm_title_back_focused.9.PNG",
         "source": "C:\\Users\\ldgd\\Desktop\\project\\studio project\\LD_BLE_TEXT\\QR_CodeScan\\res\\drawable-hdpi\\mm_title_back_focused.9.PNG"
+    },
+    {
+        "merged": "C:\\Users\\ldgd\\Desktop\\project\\studio project\\LD_BLE_TEXT\\QR_CodeScan\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\mm_title_back_pressed.9.PNG",
+        "source": "C:\\Users\\ldgd\\Desktop\\project\\studio project\\LD_BLE_TEXT\\QR_CodeScan\\res\\drawable-hdpi\\mm_title_back_pressed.9.PNG"
     },
     {
         "merged": "C:\\Users\\ldgd\\Desktop\\project\\studio project\\LD_BLE_TEXT\\QR_CodeScan\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\mmtitle_bg_alpha.9.PNG",

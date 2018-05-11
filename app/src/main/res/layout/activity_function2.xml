@@ -167,7 +167,7 @@
         android:text="重新开始计数"></Button>
 
 
-    <TextView
+    <!--<TextView
         android:padding="5dp"
         android:id="@+id/tv_message"
         android:layout_width="match_parent"
@@ -176,9 +176,28 @@
         android:background="@drawable/edit_box_bg"
         android:maxLines="10000"
         android:scrollbars="vertical"
+        android:text="file content is empty!" />-->
+
+ <!--   <TextView
+        android:id="@id/data_read_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0"
+        android:background="@drawable/edit_box_bg"
+        android:maxLines="10000"
+        android:scrollbars="vertical"
+        android:textSize="@dimen/small_text_size" />-->
+
+    <TextView
+        android:padding="5dp"
+        android:id="@+id/tv_message"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="false"
+        android:background="@drawable/edit_box_bg"
+        android:maxLines="10000"
+        android:scrollbars="vertical"
         android:text="file content is empty!" />
-
-
 
     <ScrollView
 
@@ -190,7 +209,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
 
