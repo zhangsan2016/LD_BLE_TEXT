@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.ldgd.bletext.R;
 import com.ldgd.bletext.blespp.BluetoothLeService;
 import com.ldgd.bletext.crc.checkCRC;
+import com.ldgd.bletext.util.BytesUtil;
 import com.ldgd.bletext.util.LogUtil;
 
 import java.text.SimpleDateFormat;
@@ -117,6 +118,10 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
     private int loseCount = 0; // 丢包数
     private int nBrace = 0;  // 无效包
     private int yBrace = 0;  // 有效包
+    /**
+     * 心跳crc
+     */
+    private int heartbeatCrc = 28784;
     private   StringBuffer stringBuffer = new StringBuffer();
 
     private Handler upHandler = new Handler() {
@@ -139,6 +144,14 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
                     System.arraycopy(data,0,crcData,0,data.length-2);
                     byte[] crc = checkCRC.crc(crcData);
                     LogUtil.e("crc = " + Arrays.toString(crc));
+
+                    //对比crc，判断是否心跳包
+                   int dataCrc =  BytesUtil.bytesToInt2(crc);
+                    if(dataCrc == heartbeatCrc){
+                     LogUtil.e("心跳包上来了！");
+                        break;
+                    }
+
 
                     // 校验crc
                     if (true) {
@@ -413,23 +426,7 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
-        stringBuffer.append("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        );
+
     }
 
     private void intitView() {
