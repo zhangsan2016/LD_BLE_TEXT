@@ -138,9 +138,15 @@ public class BluetoothLeService extends Service {
         public void onCharacteristicRead(BluetoothGatt gatt,
                                          BluetoothGattCharacteristic characteristic,
                                          int status) {
+
+            LogUtil.e(TAG  + "callback characteristic read status " + status
+                    + " in thread " + Thread.currentThread());
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+                LogUtil.e(TAG + "read value: " + characteristic.getValue());
             }
+
+
         }
 
         @Override
@@ -337,7 +343,7 @@ public class BluetoothLeService extends Service {
 
 
     public void writeData(byte[] data) {
-        LogUtil.e("data = " + Arrays.toString(data));
+        LogUtil.e(BluetoothLeService.this.getPackageName()+"send data = " + Arrays.toString(data));
         if ( mWriteCharacteristic != null &&
                 data != null) {
             mWriteCharacteristic.setValue(data);

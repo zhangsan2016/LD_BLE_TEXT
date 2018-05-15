@@ -176,6 +176,12 @@ public class DeviceScanActivity extends ListActivity {
         final Intent intent = new Intent(this, StatisticsActivity.class);
         intent.putExtra(StatisticsActivity.EXTRAS_DEVICE_NAME, device.getName());
         intent.putExtra(StatisticsActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress());
+
+/*        final Intent intent = new Intent(this, FunctionActivity.class);
+        intent.putExtra(FunctionActivity.EXTRAS_DEVICE_NAME, device.getName());
+        intent.putExtra(FunctionActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress());*/
+
+
         if (mScanning) {
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
             mScanning = false;

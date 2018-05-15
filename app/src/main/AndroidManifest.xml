@@ -15,6 +15,9 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
 <!--app说明，这个版本有两个控制界面，FunctionActivity和StatisticsActivity（统计界面）-->
 
     <!-- Min/target SDK versions (<uses-sdk>) managed by build.gradle -->

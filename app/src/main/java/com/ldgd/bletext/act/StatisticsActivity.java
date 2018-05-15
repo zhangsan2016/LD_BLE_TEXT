@@ -1,5 +1,6 @@
 package com.ldgd.bletext.act;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -9,10 +10,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
@@ -65,6 +71,7 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 
     private static final int COUNT = 7; // 统计
     private static final int COUNT_SEND = 8;
+    private static final int REQUEST_ACCESS_COARSE_LOCATION = 101;
 
 
     static long recv_cnt = 0;
@@ -118,6 +125,7 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
     private int loseCount = 0; // 丢包数
     private int nBrace = 0;  // 无效包
     private int yBrace = 0;  // 有效包
+
     /**
      * 心跳crc
      */
@@ -143,13 +151,16 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
                    byte[] crcData = new byte[data.length-2];
                     System.arraycopy(data,0,crcData,0,data.length-2);
                     byte[] crc = checkCRC.crc(crcData);
-                    LogUtil.e("crc = " + Arrays.toString(crc));
+              //      LogUtil.e("crc = " + Arrays.toString(crc));
 
                     //对比crc，判断是否心跳包
                    int dataCrc =  BytesUtil.bytesToInt2(crc);
                     if(dataCrc == heartbeatCrc){
                      LogUtil.e("心跳包上来了！");
                         break;
+                    }
+                    if(data.length != 19){
+                        return;
                     }
 
 
@@ -387,6 +398,10 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 
 
         intitView();
+        getPermission();
+
+
+
 
 
         mData = new StringBuilder();
@@ -426,6 +441,46 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
+
+    }
+
+    private void getPermission() {
+        if(Build.VERSION.SDK_INT>=23){
+            //判断是否有权限
+            if (ContextCompat.checkSelfPermission(StatisticsActivity.this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
+                //请求权限
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        REQUEST_ACCESS_COARSE_LOCATION);
+              //向用户解释，为什么要申请该权限
+                if(ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.READ_CONTACTS)) {
+                    Toast.makeText(StatisticsActivity.this,"shouldShowRequestPermissionRationale", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // TODO Auto-generated method stub
+        if (requestCode == REQUEST_ACCESS_COARSE_LOCATION) {
+            if (permissions[0] .equals(Manifest.permission.ACCESS_COARSE_LOCATION)
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 用户同意使用该权限
+            } else {
+                // 用户不同意，向用户展示该权限作用
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                    //showTipDialog("用来扫描附件蓝牙设备的权限，请手动开启！");
+
+                    Toast.makeText(this,"用来扫描附件蓝牙设备的权限，请手动开启！",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        }
 
     }
 
@@ -683,14 +738,16 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
 
                 if (mConnected) {
 
-                    // 关闭定时器
+                    sendOrder((byte) 22);
+
+                  /*  // 关闭定时器
                     closeTimer();
 
                     int pollingTime = Integer.parseInt(etSendTimeInterval.getText()
                             .toString().trim());
                     pollingtimer = new Timer();
                     pollingTask = new PollingTask();
-                    pollingtimer.schedule(pollingTask, new Date(), pollingTime * 1000);
+                    pollingtimer.schedule(pollingTask, new Date(), pollingTime * 1000);*/
                 } else {
                     Toast.makeText(StatisticsActivity.this, "请先等待蓝牙接口连接成功再发送数据请求", Toast.LENGTH_SHORT).show();
                 }
@@ -742,7 +799,7 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
             public void run() {
                 super.run();
                 try {
-                    final byte[] buf = new byte[20];
+                    final byte[] buf = new byte[19];
 
                     buf[0] = -18;
                     buf[1] = 0;
@@ -752,23 +809,22 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
                     buf[5] = 0;
                     buf[6] = 0;
 
-                    buf[17] = 0;
-                    buf[18] = 0;  // CRC
-                    buf[19] = 0;
+                    buf[17] = 0;// CRC
+                    buf[18] = 0;
                     //    buf[20] = -17;   // 帧尾
 
 
                     // 截取数组做CRC校验
-                    final byte[] buf2 = new byte[18];
-                    LogUtil.e(Arrays.toString(buf2));
+                    final byte[] buf2 = new byte[buf.length-2];
 
-                    System.arraycopy(buf, 0, buf2, 0, 18);
+                    System.arraycopy(buf, 0, buf2, 0, buf2.length);
                     // 获取CRC
                     byte[] crc = checkCRC.crc(buf2);
                     // 添加CRC
-                    System.arraycopy(crc, 0, buf, 18, 2);
+                    System.arraycopy(crc, 0, buf, buf.length-2, crc.length);
 
                     mBluetoothLeService.writeData(buf);
+                    LogUtil.e("buf == " + Arrays.toString(buf));
 
                   //  mBluetoothLeService.writeData(new byte[]{-17});
 
