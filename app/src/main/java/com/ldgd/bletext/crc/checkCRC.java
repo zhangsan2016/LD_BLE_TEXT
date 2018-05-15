@@ -140,4 +140,17 @@ public class checkCRC {
 			byte []CRC = HexStringBytes(str_crc);
 			return  CRC;
 		}
+
+	/**
+	 *   截取数组
+	 * @param src 源数组
+	 * @param begin  开始位置
+	 * @param count 长度
+	 * @return
+	 */
+	public static byte[] subBytes(byte[] src, int begin, int count) {
+		byte[] bs = new byte[count];
+		System.arraycopy(src, begin, bs, 0, count);
+		return bs;
+	}
 }

@@ -51,7 +51,7 @@
     <string name="ble_need_location">Android6.0蓝牙需要开启</string>
 
     <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
-    <string name="sendTimeInterval">3</string>
+    <string name="sendTimeInterval">10</string>
     <string name="sendByteCount">0</string>
     <string name="sendCount">0</string>
 

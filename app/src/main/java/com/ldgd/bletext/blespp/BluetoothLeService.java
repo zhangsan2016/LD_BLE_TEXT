@@ -102,6 +102,11 @@ public class BluetoothLeService extends Service {
             }
         }
 
+        /**
+         *  发现服务，在蓝牙连接的时候会调用
+         * @param gatt
+         * @param status
+         */
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {

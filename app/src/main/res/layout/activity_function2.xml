@@ -47,7 +47,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="持续发送间隔(秒)" />
+            android:text="持续发送间隔( * 100 毫秒)" />
 
         <EditText
             android:id="@+id/et_sendTimeInterval"
@@ -59,6 +59,7 @@
 
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -152,13 +153,13 @@
         android:id="@+id/sendOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="发送信息" />
+        android:text="开启定时发送信息" />
 
     <Button
         android:id="@+id/sendPause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="暂停发送"></Button>
+        android:text="停止发送"></Button>
 
     <Button
         android:id="@+id/reset"
