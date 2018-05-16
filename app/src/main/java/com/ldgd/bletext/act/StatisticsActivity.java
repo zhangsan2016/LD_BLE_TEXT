@@ -788,7 +788,7 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
                 loseCount = 0; // 发包数
                 nBrace = 0;  // 无效包
                 yBrace = 0;
-                stringBuffer.setLength(0);
+                stringBuffer.delete(0,stringBuffer.length());//删除所有的数据
                 tv_message.setText(stringBuffer.toString());
                 UpdateStatistics();
 
