@@ -9,6 +9,7 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Process;
 import android.os.Vibrator;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
@@ -73,6 +74,9 @@ public class MipcaActivityCapture extends Activity implements Callback {
 		});
 		hasSurface = false;
 		inactivityTimer = new InactivityTimer(this);
+
+
+
 	}
 
 	@Override
@@ -229,5 +233,7 @@ public class MipcaActivityCapture extends Activity implements Callback {
 			mediaPlayer.seekTo(0);
 		}
 	};
+
+
 
 }
