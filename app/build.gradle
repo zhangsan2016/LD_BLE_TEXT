@@ -45,4 +45,10 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     compile files('libs/zxing.jar')
+
+    /* nfc 模块 */
+    compile project(':st25.android.reader.interface')
+    // Needed by ST25 SDK
+    compile 'org.apache.commons:commons-lang3:3.5'
+    compile 'com.android.support:design:25.+'
 }

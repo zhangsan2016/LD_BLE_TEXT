@@ -1,1 +1,1 @@
-include ':app', ':QR_CodeScan'
+include ':app', ':QR_CodeScan', ':st25.android.reader.interface'

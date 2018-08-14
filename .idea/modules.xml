@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/LD_BLE_TEXT.iml" filepath="$PROJECT_DIR$/LD_BLE_TEXT.iml" />
       <module fileurl="file://$PROJECT_DIR$/QR_CodeScan/QR_CodeScan.iml" filepath="$PROJECT_DIR$/QR_CodeScan/QR_CodeScan.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/st25.android.reader.interface/st25.android.reader.interface.iml" filepath="$PROJECT_DIR$/st25.android.reader.interface/st25.android.reader.interface.iml" />
     </modules>
   </component>
 </project>

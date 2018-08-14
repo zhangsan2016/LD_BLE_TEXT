@@ -12,13 +12,25 @@
     <!--二维码权限-->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
+    <!-- NFC权限-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
-<!--app说明，这个版本有两个控制界面，FunctionActivity和StatisticsActivity（统计界面）-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!--app说明，这个版本有两个控制界面，FunctionActivity和StatisticsActivity（统计界面）-->
 
     <!-- Min/target SDK versions (<uses-sdk>) managed by build.gradle -->
 
@@ -55,8 +67,90 @@
             android:name=".act.MipcaActivityCapture"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" >
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+
+
+        <activity
+            android:name="example.ldgd.com.checknfc.generic.MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/STAppTheme.NoActionBar">
+
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="http" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.TAG_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <data android:mimeType="application/vnd.wfa.wsc" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.TECH_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.nfc.action.TECH_DISCOVERED"
+                android:resource="@xml/filter_nfc" />
         </activity>
+
+        <activity
+            android:name="example.ldgd.com.checknfc.generic.ST25DVActivity"
+            android:label="ST25DVActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/STAppTheme.NoActionBar" />
+
+        <activity
+            android:name="example.ldgd.com.checknfc.generic.WriteFragmentActivity"
+            android:label="WriteFragmentActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/STAppTheme.NoActionBar" />
+        <activity
+            android:name="example.ldgd.com.checknfc.generic.STFragmentActivity"
+            android:label="WriteFragmentActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/STAppTheme.NoActionBar" />
+
+
+        <activity
+            android:name="example.ldgd.com.checknfc.generic.ReadFragmentActivity"
+            android:label="WriteFragmentActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/STAppTheme.NoActionBar" />
+        <activity
+            android:name="example.ldgd.com.checknfc.generic.NDEFActivity"
+            android:label="WriteFragmentActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/STAppTheme.NoActionBar" />
+        <activity
+            android:name="example.ldgd.com.checknfc.generic.DumpMemoryFragmentActivity"
+            android:label="WriteFragmentActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/STAppTheme.NoActionBar" />
+        <activity
+            android:name="example.ldgd.com.checknfc.fragment.FillMemoryFragmentActivity"
+            android:label="WriteFragmentActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/STAppTheme.NoActionBar" />
+
 
         <service
             android:name=".blespp.BluetoothLeService"
