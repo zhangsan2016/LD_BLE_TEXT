@@ -152,6 +152,7 @@
             android:theme="@style/STAppTheme.NoActionBar" />
 
 
+
         <service
             android:name=".blespp.BluetoothLeService"
             android:enabled="true" />
