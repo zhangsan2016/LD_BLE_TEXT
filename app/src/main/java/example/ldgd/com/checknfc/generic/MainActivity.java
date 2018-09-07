@@ -310,11 +310,11 @@ public class MainActivity extends AppCompatActivity
         MenuItem menuItem = menu.findItem(R.id.activity_menu);
         Log.e("aaa productId =", "productId = " + productId);
         switch (productId) {
-/*            case PRODUCT_ST_ST25DV64K_I:
+           case PRODUCT_ST_ST25DV64K_I:
             case PRODUCT_ST_ST25DV64K_J:
             case PRODUCT_ST_ST25DV16K_I:
             case PRODUCT_ST_ST25DV16K_J:
-            case PRODUCT_ST_ST25DV04K_I:*/
+            case PRODUCT_ST_ST25DV04K_I:
             case PRODUCT_ST_ST25DV04K_J:
                 checkMailboxActivation();
                 startTagActivity(ST25DVActivity.class, R.string.st25dv_menus);
