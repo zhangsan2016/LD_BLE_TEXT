@@ -78,7 +78,6 @@ final class CameraConfigurationManager {
     //modify here
     
 //    camera.setDisplayOrientation(90);
-    //ºÊ»›2.1
     setDisplayOrientation(camera, 90);
     camera.setParameters(parameters);
   }
