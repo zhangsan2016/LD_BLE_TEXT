@@ -363,6 +363,12 @@ public class ReadFragmentActivity extends STFragmentActivity
         return false;
     }
 
+
+
+    /**
+     *  异步读取NFC数组
+     * @param buffer
+     */
     class ContentViewAsync extends AsyncTask<Void, Integer, Boolean> {
         byte mBuffer[] = null;
         NFCTag mTag;
@@ -443,7 +449,7 @@ public class ReadFragmentActivity extends STFragmentActivity
                 public void run() {
                     // inform user that a read will be performed
                     Snackbar snackbar = Snackbar.make(mChildView, "", Snackbar.LENGTH_LONG);
-                    snackbar.setText(getString(R.string.reading_x_bytes_starting_y_address, mNumberOfBytes, mStartAddress));
+                    snackbar.setText(getString(R.string.reading_x_bytes_starting_y_address, mStartAddress,mNumberOfBytes ));
                     snackbar.setActionTextColor(getResources().getColor(R.color.white));
                     snackbar.show();
                 }
@@ -458,6 +464,8 @@ public class ReadFragmentActivity extends STFragmentActivity
     @Override
     public void onClick(View v) {
 
+
+        // 获取读取的开始位置和读取个数
         try {
             if (mUnitInBytes) {
                 mStartAddress = Integer.parseInt(mStartAddressEditText.getText().toString());
@@ -483,12 +491,17 @@ public class ReadFragmentActivity extends STFragmentActivity
             showToast(R.string.bad_number_of_bytes);
             return;
         }
+
+        //设置为读取所有
+        mStartAddress = 0;
+        mNumberOfBytes = 508;
+
         // Hide Soft Keyboard
         InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
         Snackbar snackbar = Snackbar.make(v, "", Snackbar.LENGTH_LONG);
-        snackbar.setAction(getString(R.string.reading_x_bytes_starting_y_address, mNumberOfBytes, mStartAddress), this);
+        snackbar.setAction(getString(R.string.reading_x_bytes_starting_y_address, mStartAddress, mNumberOfBytes), this);
 
         snackbar.setActionTextColor(getResources().getColor(R.color.white));
         snackbar.show();
@@ -502,6 +515,7 @@ public class ReadFragmentActivity extends STFragmentActivity
     }
 
     private void startType5ReadingAndDisplaying(int startAddress, int numberOfBytes) {
+
         mStartAddress = startAddress;
         mNumberOfBytes = numberOfBytes;
         contentView = new ContentViewAsync(getTag());
