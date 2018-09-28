@@ -141,8 +141,8 @@
     <string name="clone_ndef_content">复制NDEF内容</string>
     <string name="select_memory_area">选择存储器区域</string>
     <string name="units_read_memory">单位</string>
-    <string name="start_label">开始</string>
-    <string name="number_of_items">东西的个数：</string>
+    <string name="start_label">开始的位置</string>
+    <string name="number_of_items">读取的个数：</string>
     <string name="error_during_read_operation">读操作出错。 读%d字节</string>
     <string name="bad_start_address">错误起始位</string>
     <string name="bad_number_of_bytes">错误字节数</string>

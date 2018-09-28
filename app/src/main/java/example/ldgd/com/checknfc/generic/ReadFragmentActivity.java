@@ -284,7 +284,8 @@ public class ReadFragmentActivity extends STFragmentActivity
         startAddressLayout.setVisibility(View.VISIBLE);
         nbrOfBytesLayout.setVisibility(View.VISIBLE);
         LinearLayout unitLayout = (LinearLayout) findViewById(R.id.unitLayout);
-        unitLayout.setVisibility(View.VISIBLE);
+      //  unitLayout.setVisibility(View.VISIBLE);
+        unitLayout.setVisibility(View.GONE);
         removeType4ReadSelectionParameters();
     }
 
