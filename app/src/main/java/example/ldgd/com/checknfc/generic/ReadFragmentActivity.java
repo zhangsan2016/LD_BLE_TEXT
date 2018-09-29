@@ -46,6 +46,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -100,6 +101,7 @@ public class ReadFragmentActivity extends STFragmentActivity
     private View mChildView;
 
     private boolean mUnitInBytes;
+    private Button btReadByPositionBytes;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -223,6 +225,9 @@ public class ReadFragmentActivity extends STFragmentActivity
                 displayType5ReadSelectionParameters();
             }
         }
+
+        btReadByPositionBytes = (Button) findViewById(R.id.bt_read_by_position_bytes);
+        btReadByPositionBytes.setOnClickListener(this);
 
     }
 
@@ -368,7 +373,6 @@ public class ReadFragmentActivity extends STFragmentActivity
 
     /**
      *  异步读取NFC数组
-     * @param buffer
      */
     class ContentViewAsync extends AsyncTask<Void, Integer, Boolean> {
         byte mBuffer[] = null;
@@ -438,6 +442,7 @@ public class ReadFragmentActivity extends STFragmentActivity
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             if (mBuffer != null) {
+                LogUtil.e("mBuffer  ==  " + Arrays.toString(mBuffer));
                 mAdapter = new CustomListAdapter(mBuffer);
                 lv = (ListView) findViewById(R.id.readBlocksListView);
                 lv.setAdapter(mAdapter);
@@ -464,39 +469,59 @@ public class ReadFragmentActivity extends STFragmentActivity
 
     @Override
     public void onClick(View v) {
+          switch (v.getId())
+          {
+              case R.id.fab:
+
+                  //设置为读取所有
+                  mStartAddress = 0;
+                  mNumberOfBytes = 508;
+
+                  ReadTheBytes(v,mStartAddress,mNumberOfBytes);
+                  break;
+              case R.id.bt_read_by_position_bytes:
+
+                  // 获取读取的开始位置和读取个数
+                  try {
+                      if (mUnitInBytes) {
+                          mStartAddress = Integer.parseInt(mStartAddressEditText.getText().toString());
+                      } else {
+                          int valInBlock = Integer.parseInt(mStartAddressEditText.getText().toString());
+                          mStartAddress = convertItemToBytesUnit(valInBlock);
+                      }
+                  } catch (Exception e) {
+                      STLog.e("Bad Start Address" + e.getMessage());
+                      showToast(R.string.bad_start_address);
+                      return;
+                  }
+
+                  try {
+                      if (mUnitInBytes) {
+                          mNumberOfBytes = Integer.parseInt(mNbrOfBytesEditText.getText().toString());
+                      } else {
+                          int valInBlock = Integer.parseInt(mNbrOfBytesEditText.getText().toString());
+                          mNumberOfBytes = convertItemToBytesUnit(valInBlock);
+                      }
+                  } catch (Exception e) {
+                      STLog.e("Bad Numbers of Bytes" + e.getMessage());
+                      showToast(R.string.bad_number_of_bytes);
+                      return;
+                  }
+                  ReadTheBytes(v,mStartAddress,mNumberOfBytes);
+                  break;
+
+          }
 
 
-        // 获取读取的开始位置和读取个数
-        try {
-            if (mUnitInBytes) {
-                mStartAddress = Integer.parseInt(mStartAddressEditText.getText().toString());
-            } else {
-                int valInBlock = Integer.parseInt(mStartAddressEditText.getText().toString());
-                mStartAddress = convertItemToBytesUnit(valInBlock);
-            }
-        } catch (Exception e) {
-            STLog.e("Bad Start Address" + e.getMessage());
-            showToast(R.string.bad_start_address);
-            return;
-        }
+    }
 
-        try {
-            if (mUnitInBytes) {
-                mNumberOfBytes = Integer.parseInt(mNbrOfBytesEditText.getText().toString());
-            } else {
-                int valInBlock = Integer.parseInt(mNbrOfBytesEditText.getText().toString());
-                mNumberOfBytes = convertItemToBytesUnit(valInBlock);
-            }
-        } catch (Exception e) {
-            STLog.e("Bad Numbers of Bytes" + e.getMessage());
-            showToast(R.string.bad_number_of_bytes);
-            return;
-        }
-
-        //设置为读取所有
-        mStartAddress = 0;
-        mNumberOfBytes = 508;
-
+    /**
+     * 从 mNumberOfBytes
+     * @param v
+     * @param mStartAddress
+     * @param mNumberOfBytes
+     */
+    private void ReadTheBytes(View v,int mStartAddress,int mNumberOfBytes) {
         // Hide Soft Keyboard
         InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -506,13 +531,10 @@ public class ReadFragmentActivity extends STFragmentActivity
 
         snackbar.setActionTextColor(getResources().getColor(R.color.white));
         snackbar.show();
+        // by defaut - read first area
         if (getTag() instanceof Type5Tag) {
             startType5ReadingAndDisplaying(mStartAddress, mNumberOfBytes);
-        } else {
-
-            // by defaut - read first area
-            startType4ReadingAndDisplaying(getTag(), AREA1);
-        }
+        } else startType4ReadingAndDisplaying(getTag(), AREA1);
     }
 
     private void startType5ReadingAndDisplaying(int startAddress, int numberOfBytes) {
@@ -596,7 +618,7 @@ public class ReadFragmentActivity extends STFragmentActivity
                 byte1Str = Helper.convertByteToHexString(myByte).toUpperCase();
                 char1 = getChar(myByte);
             }
-            LogUtil.e("mBuffer  ==  " + Arrays.toString(mBuffer));
+
             address = pos * NBR_OF_BYTES_PER_RAW + 1;
             if (address < mBuffer.length) {
                 myByte = mBuffer[address];

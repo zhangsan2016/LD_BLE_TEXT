@@ -57,7 +57,14 @@
             android:layout_weight="2"/>
     </LinearLayout>
 
-
+    <Button
+        android:id="@+id/bt_read_by_position_bytes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/st_light_blue"
+        android:text="按      位      置      写      入"></Button>
     <!--A coordinator layout is needed to get the FloatingActionButton on top of the ListView-->
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"

@@ -49,6 +49,6 @@ dependencies {
     compile project(':st25.android.reader.interface')
     // Needed by ST25 SDK
     compile 'org.apache.commons:commons-lang3:3.5'
-  //  compile 'com.android.support:design:25.+'
-    compile 'com.android.support:design:26.0.0-alpha1'
+    compile 'com.android.support:design:25.+'
+  //  compile 'com.android.support:design:26.0.0-alpha1'
 }
