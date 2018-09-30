@@ -58,7 +58,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/bt_read_by_position_bytes"
+        android:id="@+id/bt_write_by_position_bytes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -101,8 +101,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@android:string/ok"
+                android:text="write"
                 android:elevation="16dp"
+                android:textSize="16sp"
                 android:textColor="@android:color/white"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </FrameLayout>

@@ -124,6 +124,7 @@
     <string name="one_hundred_twenty_height_bits_pwd">（128位 16进制格式）</string>
     <string name="feature_under_nda">保密协议，请联络意法半导体本地销售获取完整版本.</string>
     <string name="Command_failed">命令失败！</string>
+    <string name="save_read_data">保存读取数据！</string>
     <string name="present_pwd_failed">显示密码失败!</string>
     <string name="tag_not_in_the_field">标签不在场区内</string>
     <string name="untraceable_mode_enabled">保密模式已开启</string>

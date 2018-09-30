@@ -43,10 +43,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ldgd.bletext.R;
 import com.st.st25sdk.Helper;
@@ -54,6 +56,7 @@ import com.st.st25sdk.STException;
 import com.st.st25sdk.STLog;
 
 import example.ldgd.com.checknfc.fragment.STFragment;
+import example.ldgd.com.checknfc.generic.util.CacheUtils;
 
 public class WriteFragmentActivity extends STFragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener, STFragment.STFragmentListener, View.OnClickListener {
@@ -64,7 +67,7 @@ public class WriteFragmentActivity extends STFragmentActivity
 
     // Address at which we will write the Value
     private int mByteAddress;
-    private int mValue;
+    private byte[] mValue;
 
     // Start address for the memory dump
     private int mDumpStartAddress;
@@ -83,6 +86,7 @@ public class WriteFragmentActivity extends STFragmentActivity
     private Handler mHandler;
     private CustomListAdapter mAdapter;
     private Thread mThread;
+    private Button btWriteByPositionBytes;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +130,9 @@ public class WriteFragmentActivity extends STFragmentActivity
         mHandler = new Handler();
 
         toolbar.setTitle(getTag().getName());
+
+        btWriteByPositionBytes = (Button) this.findViewById(R.id.bt_write_by_position_bytes);
+        btWriteByPositionBytes.setOnClickListener(this);
     }
 
 
@@ -180,7 +187,7 @@ public class WriteFragmentActivity extends STFragmentActivity
 
             try {
                 // 写入数据到NFC
-                getTag().writeBytes(mByteAddress, new byte[]{(byte) mValue});
+                getTag().writeBytes(mByteAddress,mValue);
 
                 // The data has been written
                 // Display 4 raws including the byte written
@@ -222,36 +229,101 @@ public class WriteFragmentActivity extends STFragmentActivity
     }
 
 
+    class ContentView2 implements Runnable {
+        public void run() {
+            byte buffer[] = null;
+            lv = (ListView) findViewById(R.id.writeBlockListView);
+
+            try {
+                // 写入数据到NFC
+                getTag().writeBytes(0,mValue);
+              //  getTag().writeCCFile(mValue);
+
+                buffer = getTag().readBytes(0, mValue.length);
+
+                // Warning: readBytes() may return less bytes than requested
+                if(buffer.length != mNumberOfBytes) {
+                    showToast(R.string.error_during_read_operation, buffer.length);
+                }
+
+            } catch (STException e) {
+                if (e.getMessage() != null) {
+                    Log.e(TAG, e.getMessage());
+                } else {
+                    Log.e(TAG, "Command failed");
+                }
+                showToast(R.string.Command_failed);
+            }
+
+            if (buffer != null) {
+                mAdapter = new CustomListAdapter(buffer);
+
+
+                if (mHandler != null && lv != null) {
+                    mHandler.post(new Runnable() {
+                        public void run() {
+                            lv.setAdapter(mAdapter);
+                        }
+                    });
+                }
+                ;
+            }
+        }
+    }
+
+
     @Override
     public void onClick(View v) {
-        // Hide Soft Keyboard (关闭键盘显示)
-        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
-        try {
-            mByteAddress = Integer.parseInt(mByteAddressEditText.getText().toString());
-        }  catch (Exception e) {
-            STLog.e("Bad Address" + e.getMessage());
-            showToast(R.string.bad_address);
-            return;
+        switch (v.getId()){
+            case R.id.fab:
+                Toast.makeText(this,"fab " ,Toast.LENGTH_SHORT).show();
+                try {
+                    // 保存nfc读取的数据
+                    mValue =  CacheUtils.getString(WriteFragmentActivity.this,"nfcdata");
+
+
+                } catch (Exception e) {
+                    STLog.e("Bad Value" + e.getMessage());
+                    showToast(R.string.bad_value);
+                    return;
+                }
+                mThread = new Thread(new ContentView2());
+                mThread.start();
+                break;
+            case R.id.bt_write_by_position_bytes:
+                // Hide Soft Keyboard (关闭键盘显示)
+                InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+                try {
+                    mByteAddress = Integer.parseInt(mByteAddressEditText.getText().toString());
+                }  catch (Exception e) {
+                    STLog.e("Bad Address" + e.getMessage());
+                    showToast(R.string.bad_address);
+                    return;
+                }
+
+                try {
+
+                    mValue =new byte[]{((byte)Integer.parseInt(mByteValueEditText.getText().toString()))};
+                } catch (Exception e) {
+                    STLog.e("Bad Value" + e.getMessage());
+                    showToast(R.string.bad_value);
+                    return;
+                }
+
+                Snackbar snackbar = Snackbar.make(v, "", Snackbar.LENGTH_LONG);
+
+                snackbar.setAction("Writing  @ " + mByteAddress + " the value " + mValue[0], this);
+                snackbar.setActionTextColor(getResources().getColor(R.color.white));
+
+                mThread = new Thread(new ContentView());
+                snackbar.show();
+                mThread.start();
+                break;
         }
 
-        try {
-            mValue = Integer.parseInt(mByteValueEditText.getText().toString());
-        } catch (Exception e) {
-            STLog.e("Bad Value" + e.getMessage());
-            showToast(R.string.bad_value);
-            return;
-        }
-
-        Snackbar snackbar = Snackbar.make(v, "", Snackbar.LENGTH_LONG);
-
-        snackbar.setAction("Writing  @ " + mByteAddress + " the value " + mValue, this);
-        snackbar.setActionTextColor(getResources().getColor(R.color.white));
-
-        mThread = new Thread(new ContentView());
-        snackbar.show();
-        mThread.start();
     }
 
     public void onPause() {

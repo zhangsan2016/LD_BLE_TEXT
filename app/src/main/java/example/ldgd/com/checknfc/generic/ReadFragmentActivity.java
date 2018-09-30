@@ -69,6 +69,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import example.ldgd.com.checknfc.fragment.STFragment;
+import example.ldgd.com.checknfc.generic.util.CacheUtils;
 import example.ldgd.com.checknfc.generic.util.LogUtil;
 import example.ldgd.com.checknfc.generic.util.UIHelper;
 
@@ -419,8 +420,11 @@ public class ReadFragmentActivity extends STFragmentActivity
                         mBuffer = getTag().readBytes(mStartAddress, mNumberOfBytes);
                         // Warning: readBytes() may return less bytes than requested
                         int nbrOfBytesRead = 0;
-                        if (mBuffer != null) {
+                       if (mBuffer != null) {
                             nbrOfBytesRead = mBuffer.length;
+                            // 保存nfc读取的数据
+                            CacheUtils.putString(ReadFragmentActivity.this,"nfcdata",Arrays.toString(mBuffer));
+                           showToast(R.string.save_read_data);
                         }
                         if (nbrOfBytesRead != mNumberOfBytes) {
                             showToast(R.string.error_during_read_operation, nbrOfBytesRead);
