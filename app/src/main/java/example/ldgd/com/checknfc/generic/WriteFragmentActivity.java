@@ -25,6 +25,7 @@
 
 package example.ldgd.com.checknfc.generic;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -189,6 +190,7 @@ public class WriteFragmentActivity extends STFragmentActivity
                 // 写入数据到NFC
                 getTag().writeBytes(mByteAddress,mValue);
 
+
                 // The data has been written
                 // Display 4 raws including the byte written
                 mNumberOfBytes = 4 * NBR_OF_BYTES_PER_RAW;
@@ -237,14 +239,18 @@ public class WriteFragmentActivity extends STFragmentActivity
             try {
                 // 写入数据到NFC
                 getTag().writeBytes(0,mValue);
+               getTag().writeBytes(480,new byte[]{-84});
               //  getTag().writeCCFile(mValue);
+                mNumberOfBytes = mValue.length;
 
-                buffer = getTag().readBytes(0, mValue.length);
 
-                // Warning: readBytes() may return less bytes than requested
-                if(buffer.length != mNumberOfBytes) {
-                    showToast(R.string.error_during_read_operation, buffer.length);
-                }
+                // The data has been written
+                // Display 4 raws including the byte written
+
+                buffer = getTag().readBytes(0, 508);
+
+                stopProgress();
+
 
             } catch (STException e) {
                 if (e.getMessage() != null) {
@@ -271,15 +277,25 @@ public class WriteFragmentActivity extends STFragmentActivity
         }
     }
 
+    private ProgressDialog mProgress;
+    private void showProgress() {
+        mProgress = ProgressDialog.show(this, "", "Loading...");
+
+    }
+
+    private void stopProgress() {
+        mProgress.cancel();
+    }
 
     @Override
     public void onClick(View v) {
 
         switch (v.getId()){
             case R.id.fab:
+                showProgress();
                 Toast.makeText(this,"fab " ,Toast.LENGTH_SHORT).show();
                 try {
-                    // 保存nfc读取的数据
+                    // 获取nfc读取的数据
                     mValue =  CacheUtils.getString(WriteFragmentActivity.this,"nfcdata");
 
 

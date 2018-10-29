@@ -479,7 +479,8 @@ public class ReadFragmentActivity extends STFragmentActivity
 
                   //设置为读取所有
                   mStartAddress = 0;
-                  mNumberOfBytes = 508;
+                  mNumberOfBytes = 80;
+               //   mNumberOfBytes = 508;
 
                   ReadTheBytes(v,mStartAddress,mNumberOfBytes);
                   break;
