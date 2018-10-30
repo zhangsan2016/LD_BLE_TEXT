@@ -259,6 +259,7 @@ public class WriteFragmentActivity extends STFragmentActivity
                     Log.e(TAG, "Command failed");
                 }
                 showToast(R.string.Command_failed);
+                stopProgress();
             }
 
             if (buffer != null) {
