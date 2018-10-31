@@ -239,7 +239,7 @@ public class WriteFragmentActivity extends STFragmentActivity
             try {
                 // 写入数据到NFC
                 getTag().writeBytes(0,mValue);
-               getTag().writeBytes(480,new byte[]{-84});
+               getTag().writeBytes(500,new byte[]{-84});
               //  getTag().writeCCFile(mValue);
                 mNumberOfBytes = mValue.length;
 
