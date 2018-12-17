@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -64,11 +65,14 @@ import com.st.st25sdk.type4a.ControlTlv;
 import com.st.st25sdk.type4a.STType4Tag;
 import com.st.st25sdk.type4a.Type4Tag;
 import com.st.st25sdk.type5.Type5Tag;
+import com.st.st25sdk.type5.st25dv.ST25DVTag;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import example.ldgd.com.checknfc.fragment.PwdDialogFragment;
 import example.ldgd.com.checknfc.fragment.STFragment;
+import example.ldgd.com.checknfc.fragment.STType5PwdDialogFragment;
 import example.ldgd.com.checknfc.generic.util.CacheUtils;
 import example.ldgd.com.checknfc.generic.util.LogUtil;
 import example.ldgd.com.checknfc.generic.util.UIHelper;
@@ -76,7 +80,7 @@ import example.ldgd.com.checknfc.generic.util.UIHelper;
 import static com.st.st25sdk.MultiAreaInterface.AREA1;
 
 public class ReadFragmentActivity extends STFragmentActivity
-        implements NavigationView.OnNavigationItemSelectedListener, STFragment.STFragmentListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, STFragment.STFragmentListener, View.OnClickListener , STType5PwdDialogFragment.STType5PwdDialogListener{
 
     // Set here the Toolbar to use for this activity
     private int toolbar_res = R.menu.toolbar_empty;
@@ -104,6 +108,10 @@ public class ReadFragmentActivity extends STFragmentActivity
     private boolean mUnitInBytes;
     private Button btReadByPositionBytes;
 
+    private  ST25DVTag myTag;
+
+    FragmentManager mFragmentManager;
+
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -114,11 +122,13 @@ public class ReadFragmentActivity extends STFragmentActivity
         mChildView = getLayoutInflater().inflate(R.layout.fragment_read_memory, null);
         frameLayout.addView(mChildView);
 
+        myTag = (ST25DVTag) MainActivity.getTag();
         if (super.getTag() == null) {
             showToast(R.string.invalid_tag);
             goBackToMainActivity();
             return;
         }
+        mFragmentManager = getSupportFragmentManager();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -229,6 +239,36 @@ public class ReadFragmentActivity extends STFragmentActivity
 
         btReadByPositionBytes = (Button) findViewById(R.id.bt_read_by_position_bytes);
         btReadByPositionBytes.setOnClickListener(this);
+
+
+
+
+        presentPassword();
+
+
+    }
+
+
+    private void presentPassword() {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                STType5PwdDialogFragment.STPwdAction pwdAction = STType5PwdDialogFragment.STPwdAction.PRESENT_CURRENT_PWD;
+                String message = " 输入区密码";
+
+                int passwordNumber = ST25DVTag.ST25DV_CONFIGURATION_PASSWORD_ID;
+                try {
+                      passwordNumber = myTag.getPasswordNumber(MultiAreaInterface.AREA4);
+                } catch (STException e) {
+                    e.printStackTrace();
+                }
+                // 参数 pwdAction : Dialog标识，passwordNumber ：得到的当前密码，message ： Dialog提示消息
+                STType5PwdDialogFragment pwdDialogFragment = STType5PwdDialogFragment.newInstance(pwdAction, passwordNumber, message);
+                pwdDialogFragment.show(mFragmentManager, "pwdDialogFragment");
+
+            }
+        }.start();
 
     }
 
@@ -370,6 +410,15 @@ public class ReadFragmentActivity extends STFragmentActivity
         return false;
     }
 
+    @Override
+    public void onSTType5PwdDialogFinish(int result) {
+        Log.v(TAG, "onSTType5PwdDialogFinish. result = " + result);
+        if (result == PwdDialogFragment.RESULT_OK) {
+            showToast(R.string.present_pwd_succeeded);
+        } else {
+            Log.e(TAG, "Action failed! Tag not updated!");
+        }
+    }
 
 
     /**

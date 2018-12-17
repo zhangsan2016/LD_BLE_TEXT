@@ -57,7 +57,8 @@
 
     <string name="error_while_reading_the_tag">读标签出错!</string>
     <string name="mailbox_enabled_eeprom_cannot_be_written">警告！ST25DV通道模式已开启，EEPROM不可写。如果想关闭通道模式，请参考通道管理。</string>
-    <string name="url_www_st_com_st25">www.st.com/st25</string>
+ <!--   <string name="url_www_st_com_st25">www.st.com/st25</string>-->
+    <string name="url_www_st_com_st25">www.szluoding.com</string>
     <string name="navigation_drawer_open">打开导航条</string>
     <string name="menu_help">帮助</string>
     <string name="navigation_drawer_close">关闭导航条</string>
@@ -360,5 +361,6 @@
     <string name="error_while_erasing_the_tag">擦除标签出错！请确认区域是否写保护</string>
     <string name="menu_nfc_forum">NFC 论坛</string>
     <string name="ndef_editor">NDEF编辑器</string>
+    <string name="present_pwd_succeeded">显示密码成功</string>
 
 </resources>
