@@ -1,0 +1,4 @@
+#Mon Oct 29 16:29:38 CST 2018
+base.0=C\:\\Users\\ldgd\\Desktop\\project\\studio project\\LD_BLE_TEXT\\QR_CodeScan\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main
+renamed.0=classes.dex
+file.0=C\:\\Users\\ldgd\\Desktop\\project\\studio project\\LD_BLE_TEXT\\QR_CodeScan\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main\\classes.dex

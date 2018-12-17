@@ -1,0 +1,70 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Risky Project Location:
+-----------------------
+The tools *should* handle project locations in any directory. However,
+due to bugs, placing projects in directories containing spaces in the
+path, or characters like ", ' and &, have had issues. We're working to
+eliminate these bugs, but to save yourself headaches you may want to
+move your project to a location where this is not a problem.
+C:\Users\ldgd\Desktop\project\studio project\LD_BLE_TEXT
+                                    -                   
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v4.jar => com.android.support:support-v4:21.+
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => ble\src\main\AndroidManifest.xml
+* assets\ => ble\src\main\assets\
+* libs\apiEngine v1.1.0.jar => ble\libs\apiEngine v1.1.0.jar
+* libs\armeabi-v7a\libsec.so => ble\src\main\jniLibs\armeabi-v7a\libsec.so
+* libs\armeabi\libsec.so => ble\src\main\jniLibs\armeabi\libsec.so
+* libs\com.broadcom.bt.jar => ble\libs\com.broadcom.bt.jar
+* libs\commons-codec-1.8.jar => ble\libs\commons-codec-1.8.jar
+* libs\samsung_ble_sdk_200.jar => ble\libs\samsung_ble_sdk_200.jar
+* lint.xml => ble\lint.xml
+* res\ => ble\src\main\res\
+* src\ => ble\src\main\java\
+
+Missing Android Support Repository:
+-----------------------------------
+Some useful libraries, such as the Android Support Library, are
+installed from a special Maven repository, which should be installed
+via the SDK manager.
+
+It looks like this library is missing from your SDK installation at:
+null
+
+To install it, open the SDK manager, and in the Extras category,
+select "Android Support Repository". You may also want to install the
+"Google Repository" if you want to use libraries like Google Play
+Services.
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)
