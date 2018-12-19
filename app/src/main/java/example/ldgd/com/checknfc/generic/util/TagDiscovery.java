@@ -285,8 +285,9 @@ public class TagDiscovery extends AsyncTask<Tag, Void, STException> {
         if(tagInfo.nfcTag != null) {
             String manufacturerName = "";
             try {
-                manufacturerName = tagInfo.nfcTag.getManufacturerName();
-            } catch (STException e) {
+             //   manufacturerName = tagInfo.nfcTag.getManufacturerName();
+                manufacturerName = "深圳洛丁光电";
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

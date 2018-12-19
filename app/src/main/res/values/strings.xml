@@ -378,5 +378,7 @@
     <string name="picture_transfers">图片传输</string>
     <string name="change_pwd_succeeded">更改密码成功</string>
     <string name="area_read_write_password_changet">修改读写密码</string>
+    <string name="error_while_updating_the_tag">更新标签出错!</string>
+    <string name="enter_configuration_pwd">输入配置密码</string>
 
 </resources>

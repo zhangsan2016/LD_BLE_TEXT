@@ -89,7 +89,6 @@ public class MyST25DVAreaSecurity {
                     rfAiSSRegister.setSSReadWriteProtection(readWriteProtection);
 
                   //  ST25DVRegisterRfAiSS.ST25DVSecurityStatusPWDControl pwdNbr = rfAiSSRegister.getSSPWDControl();
-
            /*        if((readWriteProtection != READABLE_AND_WRITABLE) && (pwdNbr == NO_PWD_SELECTED)) {
                        // The area has some protections but not password has been chosen for this area. Display a warning
                        showWarningWhenNoPassword();

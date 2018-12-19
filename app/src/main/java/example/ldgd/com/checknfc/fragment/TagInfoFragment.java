@@ -126,10 +126,11 @@ public class TagInfoFragment extends STFragment {
 
             if (myTag != null) {
                 try {
-                    mTagName = myTag.getName();
+                    mTagName = myTag.getName().substring(0,4);
                     mTagDescription = myTag.getDescription();
                     mTagType = myTag.getTypeDescription();
-                    mManufacturerName = ": " + myTag.getManufacturerName();
+                  //  mManufacturerName = ": " + myTag.getManufacturerName();
+                    mManufacturerName = ": " +  "深圳洛丁光电";
                     mUid = ": " + myTag.getUidString();
                     mTagSize = ": " + String.valueOf(myTag.getMemSizeInBytes()) + " bytes";
                     mTechList = ": " + TextUtils.join("\n ", myTag.getTechList());

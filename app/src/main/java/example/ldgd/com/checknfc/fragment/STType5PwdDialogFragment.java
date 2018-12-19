@@ -89,7 +89,8 @@ public class STType5PwdDialogFragment extends DialogFragment {
         // Some other actions where a specific password is needed
         KILL_TAG,
         ENTER_NEW_KILL_PWD,
-        ENABLE_UNTRACEABLE_MODE
+        ENABLE_UNTRACEABLE_MODE,
+        INIT_NFC
     }
 
     private String mDialogMessage;
