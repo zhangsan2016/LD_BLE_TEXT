@@ -46,16 +46,19 @@ import java.util.List;
 
 import example.ldgd.com.checknfc.adapter.STPagerAdapter;
 import example.ldgd.com.checknfc.fragment.STFragment;
+import example.ldgd.com.checknfc.fragment.STType5PwdDialogFragment;
+import example.ldgd.com.checknfc.generic.type4.ST25Menu;
 import example.ldgd.com.checknfc.generic.util.UIHelper;
 
 public class ST25DVActivity extends STFragmentActivity
-        implements NavigationView.OnNavigationItemSelectedListener, STFragment.STFragmentListener {
+        implements NavigationView.OnNavigationItemSelectedListener, STFragment.STFragmentListener ,STType5PwdDialogFragment.STType5PwdDialogListener{
 
     // Set here the Toolbar to use for this activity
     private int toolbar_res = R.menu.toolbar_empty;
 
     final static String TAG = "ST25DVActivity";
     public ST25DVTag mST25DVTag;
+    public ST25Menu mMenu;
 
     STPagerAdapter mPagerAdapter;
     ViewPager mViewPager;
@@ -65,7 +68,6 @@ public class ST25DVActivity extends STFragmentActivity
     ListView lv;
 
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pager_layout);
 
@@ -88,10 +90,10 @@ public class ST25DVActivity extends STFragmentActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-     /*  mMenu = ST25Menu.newInstance(super.getTag());
+        mMenu = ST25Menu.newInstance(super.getTag());
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-        mMenu.inflateMenu(navigationView);*/
+        mMenu.inflateMenu(navigationView);
 
         List<UIHelper.STFragmentId> fragmentList = new ArrayList<UIHelper.STFragmentId>();
 
@@ -160,13 +162,17 @@ public class ST25DVActivity extends STFragmentActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-     //   return mMenu.selectItem(this, item);
-        return false;
+        return mMenu.selectItem(this, item);
+     //   return false;
     }
 
     public ST25DVTag getTag() {
         return mST25DVTag;
     }
 
+    @Override
+    public void onSTType5PwdDialogFinish(int result) {
+
+    }
 }
 

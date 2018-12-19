@@ -57,7 +57,7 @@
 
     <string name="error_while_reading_the_tag">读标签出错!</string>
     <string name="mailbox_enabled_eeprom_cannot_be_written">警告！ST25DV通道模式已开启，EEPROM不可写。如果想关闭通道模式，请参考通道管理。</string>
- <!--   <string name="url_www_st_com_st25">www.st.com/st25</string>-->
+    <!--   <string name="url_www_st_com_st25">www.st.com/st25</string>-->
     <string name="url_www_st_com_st25">www.szluoding.com</string>
     <string name="navigation_drawer_open">打开导航条</string>
     <string name="menu_help">帮助</string>
@@ -362,5 +362,19 @@
     <string name="menu_nfc_forum">NFC 论坛</string>
     <string name="ndef_editor">NDEF编辑器</string>
     <string name="present_pwd_succeeded">显示密码成功</string>
+    <string name="menu_st25dv_features">ST25DV 特点</string>
+    <string name="configuration_protection">配置保护</string>
+    <string name="register_management">寄存器管理</string>
+    <string name="area_management">区域管理</string>
+    <string name="areas_content_editor">区域内容编辑器</string>
+    <string name="area_security_status_management">区域安全状态</string>
+    <string name="memory_content">存储器内容</string>
+    <string name="dynamic_register_management">动态寄存器管理</string>
+    <string name="Mailbox_management">通道管理</string>
+    <string name="data_transfer">数据传输</string>
+    <string name="chronometer_demo">停止观察传输</string>
+    <string name="menu_st25dv_demonstrations">ST25DV 演示</string>
+    <string name="firmware_update">固件升级</string>
+    <string name="picture_transfers">图片传输</string>
 
 </resources>

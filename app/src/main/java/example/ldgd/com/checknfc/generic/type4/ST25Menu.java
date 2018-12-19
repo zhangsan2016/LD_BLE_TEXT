@@ -25,9 +25,21 @@
 
 package example.ldgd.com.checknfc.generic.type4;
 
+import android.app.Activity;
+import android.support.design.widget.NavigationView;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+
+import com.ldgd.bletext.R;
+import com.st.st25sdk.NFCTag;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ST25Menu {
 
- /*   private static ST25Menu mMenu;
+  private static ST25Menu mMenu;
     protected List<Integer> mMenuResource;
     private static final String DBG_LOG = "ST25Menu";
     private static String mTagName;
@@ -42,7 +54,12 @@ public class ST25Menu {
 
         tagName = tag.getName();
         setProductName(tagName);
-        if ( (tagName.contains("LRi2K")) || (tagName.contains("LRi1K")) || (tagName.contains("LRi512")) ) {
+
+        if ((tagName.contains("ST25DV")) || (tagName.contains("ST25TV64K"))) {
+            mMenu = new ST25DVMenu(tag);
+        }
+
+       /* if ( (tagName.contains("LRi2K")) || (tagName.contains("LRi1K")) || (tagName.contains("LRi512")) ) {
             mMenu = new STLRiMenu(tag);
         } else if (tagName.contains("LRiS2K")) {
             mMenu = new STLRiS2kMenu(tag);
@@ -74,7 +91,7 @@ public class ST25Menu {
         else {
             mMenu = null;
             Log.e(DBG_LOG, "Menu not defined for this tag!");
-        }
+        }*/
         return mMenu;
     }
 
@@ -110,7 +127,7 @@ public class ST25Menu {
         }
 
         // Add help menu
-        view.inflateMenu(R.menu.menu_help);
+     //   view.inflateMenu(R.menu.menu_help);
 
         // update the Home name
         // get menu from navigationView
@@ -119,5 +136,5 @@ public class ST25Menu {
         MenuItem nav_item = menu.findItem(R.id.product_name);
         if (nav_item != null) nav_item.setTitle(getProductName());
 
-    }*/
+    }
 }

@@ -25,7 +25,12 @@
 
 package example.ldgd.com.checknfc.generic.type4;
 
+import com.st.st25sdk.NFCTag;
+
 public class ST25TAMenu extends ST25Menu {
+    public ST25TAMenu(NFCTag tag) {
+        super(tag);
+    }
  /*   public ST25TAMenu(NFCTag tag) {
         super(tag);
 
