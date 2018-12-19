@@ -25,6 +25,26 @@ public class MyST25DVAreaSecurity {
     public static final int AREA3 = 3;
     public static final int AREA4 = 4;
 
+    private  MyST25DVAreaSecurity(){};
+    private static  MyST25DVAreaSecurity sInstance = null;
+
+    /**
+     *  在第一个判断instance是否为null时，发现instance已经不为null了，
+     *  直接返回。这时的instance其实是不完整的。而且，即使一个线程实例化了instance，
+     *  由于每个线程都有自己的working缓存，可能另一个线程看不到前一个线程对instance的操作。
+     * @return
+     */
+    public static MyST25DVAreaSecurity getInstance(){
+        if(sInstance == null){
+            synchronized (MyST25DVAreaSecurity.class) {
+                if(sInstance == null){
+                    sInstance = new MyST25DVAreaSecurity();
+                }
+            }
+        }
+        return sInstance;
+    }
+
 
     /**
      * 设置区密码
@@ -133,21 +153,18 @@ public class MyST25DVAreaSecurity {
 
 
     /**
-     * 更改密码
-     *
-     * @param mFragmentManager
+     *   更改密码
+     *  @param mFragmentManager
+     *  @param passwordNumber    密码编号，三个的其中一个 ST25DVTag.ST25DV_PASSWORD_1 : ST25DVTag.ST25DV_PASSWORD_3;
      */
-    public void changePassword(final FragmentManager mFragmentManager) {
+    public void changePassword(final FragmentManager mFragmentManager,final int passwordNumber) {
         new Thread(new Runnable() {
             public void run() {
-                // 密码编号，三个的其中一个 ST25DVTag.ST25DV_PASSWORD_1
-                int passwordNumber = ST25DVTag.ST25DV_PASSWORD_3;
                 // message = “请输入当前密码%1$s”
-                String message = "请输入当前密码";
+                String message = "请输入新的密码";
 
-                // 枚举类型，修改当前密码
-                STType5PwdDialogFragment.STPwdAction mCurrentAction;
-                mCurrentAction = STType5PwdDialogFragment.STPwdAction.PRESENT_CURRENT_PWD;
+                // 枚举类型，验证当前密码
+                STType5PwdDialogFragment.STPwdAction   mCurrentAction = STType5PwdDialogFragment.STPwdAction.ENTER_NEW_PWD;
 
                 STType5PwdDialogFragment pwdDialogFragment = STType5PwdDialogFragment.newInstance(mCurrentAction, passwordNumber, message);
                 pwdDialogFragment.show(mFragmentManager, "pwdDialogFragment");
@@ -159,21 +176,17 @@ public class MyST25DVAreaSecurity {
 
     /**
      * 显示密码
-     * @param myTag
+     * @param mFragmentManager
+     * @param passwordNumber    密码编号，三个的其中一个 ST25DVTag.ST25DV_PASSWORD_1 : ST25DVTag.ST25DV_PASSWORD_3;
      */
-    public void presentPassword(final ST25DVTag myTag, final FragmentManager mFragmentManager) {
+    public void presentPassword( final FragmentManager mFragmentManager,final int passwordNumber) {
 
         new Thread(new Runnable() {
             public void run() {
-                int passwordNumber = 0;
-                try {
-                    passwordNumber = myTag.getPasswordNumber(MultiAreaInterface.AREA4);
-                } catch (STException e) {
-                    e.printStackTrace();
-                }
 
+                // 枚举类型，验证当前密码
                 STType5PwdDialogFragment.STPwdAction pwdAction = STType5PwdDialogFragment.STPwdAction.PRESENT_CURRENT_PWD;
-                String message = "输入区域1密码";
+                String message = "请输入当前密码";
 
                 // 参数 pwdAction : Dialog标识，passwordNumber ：得到的当前密码，message ： Dialog提示消息
                 STType5PwdDialogFragment pwdDialogFragment = STType5PwdDialogFragment.newInstance(pwdAction, passwordNumber, message);

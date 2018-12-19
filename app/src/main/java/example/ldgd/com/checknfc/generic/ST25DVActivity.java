@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import example.ldgd.com.checknfc.adapter.STPagerAdapter;
+import example.ldgd.com.checknfc.fragment.PwdDialogFragment;
 import example.ldgd.com.checknfc.fragment.STFragment;
 import example.ldgd.com.checknfc.fragment.STType5PwdDialogFragment;
 import example.ldgd.com.checknfc.generic.type4.ST25Menu;
@@ -66,6 +67,7 @@ public class ST25DVActivity extends STFragmentActivity
     private SlidingTabLayout mSlidingTabLayout;
 
     ListView lv;
+    private STType5PwdDialogFragment.STPwdAction mCurrentAction;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +121,9 @@ public class ST25DVActivity extends STFragmentActivity
         }
     }
 
+    public void setmCurrentAction(STType5PwdDialogFragment.STPwdAction mCurrentAction) {
+        this.mCurrentAction = mCurrentAction;
+    }
 
     @Override
     public void onBackPressed() {
@@ -173,6 +178,40 @@ public class ST25DVActivity extends STFragmentActivity
     @Override
     public void onSTType5PwdDialogFinish(int result) {
 
+        Log.v(TAG, "onSTType5PwdDialogFinish. result = " + result);
+        if (result == PwdDialogFragment.RESULT_OK) {
+            switch (mCurrentAction) {
+                case PRESENT_CURRENT_PWD:
+                    // Old password entered successfully
+                    // We can now enter the new password
+                    enterNewPassword();
+                    break;
+
+                case ENTER_NEW_PWD:
+                    showToast(R.string.change_pwd_succeeded);
+                    break;
+            }
+        } else {
+            Log.e(TAG, "Action failed! Tag not updated!");
+        }
+    }
+
+
+    private void enterNewPassword() {
+        mCurrentAction = STType5PwdDialogFragment.STPwdAction.ENTER_NEW_PWD;
+        MyST25DVAreaSecurity.getInstance().changePassword(getSupportFragmentManager(),ST25DVTag.ST25DV_PASSWORD_3);
+/*   new Thread(new Runnable() {
+            public void run() {
+                int passwordNumber = getSelectedPassword();
+                String message = getString(R.string.please_enter_new_pwd_x, getSelectedMessagePassword());
+
+                Log.v(TAG, "enterNewPassword");
+                mCurrentAction = STType5PwdDialogFragment.STPwdAction.ENTER_NEW_PWD;
+
+                STType5PwdDialogFragment pwdDialogFragment = STType5PwdDialogFragment.newInstance(mCurrentAction, passwordNumber, message);
+                pwdDialogFragment.show(mFragmentManager, "pwdDialogFragment");
+            }
+        }).start();*/
     }
 }
 

@@ -376,5 +376,7 @@
     <string name="menu_st25dv_demonstrations">ST25DV 演示</string>
     <string name="firmware_update">固件升级</string>
     <string name="picture_transfers">图片传输</string>
+    <string name="change_pwd_succeeded">更改密码成功</string>
+    <string name="area_read_write_password_changet">修改读写密码</string>
 
 </resources>

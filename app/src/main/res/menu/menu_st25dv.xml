@@ -9,7 +9,7 @@
             <item
                 android:id="@+id/area_security_status_management"
                 android:icon="@drawable/ic_security_black_24dp"
-                android:title="@string/area_security_status_management"/>
+                android:title="@string/area_read_write_password_changet"/>
             <!--<item
                 android:id="@+id/sys_file"
                 android:icon="@drawable/ic_perm_data_setting_black_24dp"
