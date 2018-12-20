@@ -41,6 +41,7 @@ import android.widget.ListView;
 import com.ldgd.bletext.R;
 import com.st.st25sdk.MultiAreaInterface;
 import com.st.st25sdk.STException;
+import com.st.st25sdk.TagHelper;
 import com.st.st25sdk.type5.st25dv.ST25DVRegisterRfAiSS;
 import com.st.st25sdk.type5.st25dv.ST25DVTag;
 
@@ -55,9 +56,11 @@ import example.ldgd.com.checknfc.generic.type4.ST25Menu;
 import example.ldgd.com.checknfc.generic.util.Common;
 import example.ldgd.com.checknfc.generic.util.UIHelper;
 
-import static com.st.st25sdk.type5.st25dv.ST25DVRegisterRfAiSS.ST25DVSecurityStatusPWDControl.PROTECTED_BY_PWD3;
+import static com.st.st25sdk.TagHelper.ReadWriteProtection.READABLE_AND_WRITE_PROTECTED_BY_PWD;
+import static com.st.st25sdk.type5.st25dv.ST25DVTag.ST25DV_PASSWORD_3;
 import static example.ldgd.com.checknfc.fragment.STType5PwdDialogFragment.STPwdAction.INIT_NFC;
 import static example.ldgd.com.checknfc.fragment.STType5PwdDialogFragment.STPwdAction.KILL_TAG;
+import static example.ldgd.com.checknfc.generic.util.Common.PROTECTED_BY_PWD;
 
 public class ST25DVActivity extends STFragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener, STFragment.STFragmentListener, STType5PwdDialogFragment.STType5PwdDialogListener {
@@ -171,12 +174,44 @@ public class ST25DVActivity extends STFragmentActivity
              // 设置区域密码
              try {
                  // 获取四个区域
+                 List<ST25DVRegisterRfAiSS> rfAiSSRegisters = new ArrayList<ST25DVRegisterRfAiSS>();
                  ST25DVRegisterRfAiSS rfAiSSRegister1 = (ST25DVRegisterRfAiSS) mST25DVTag.getRegister(ST25DVTag.REGISTER_RFA1SS_ADDRESS);
                  ST25DVRegisterRfAiSS rfAiSSRegister2 = (ST25DVRegisterRfAiSS) mST25DVTag.getRegister(ST25DVTag.REGISTER_RFA2SS_ADDRESS);
                  ST25DVRegisterRfAiSS rfAiSSRegister3 = (ST25DVRegisterRfAiSS) mST25DVTag.getRegister(ST25DVTag.REGISTER_RFA3SS_ADDRESS);
                  ST25DVRegisterRfAiSS rfAiSSRegister4 = (ST25DVRegisterRfAiSS) mST25DVTag.getRegister(ST25DVTag.REGISTER_RFA4SS_ADDRESS);
+                 rfAiSSRegisters.add(rfAiSSRegister1);
+                 rfAiSSRegisters.add(rfAiSSRegister2);
+                 rfAiSSRegisters.add(rfAiSSRegister3);
+                 rfAiSSRegisters.add(rfAiSSRegister4);
 
-                 // 得到密码状态
+
+                 for (int i = 0; i < 4; i++) {
+                     ST25DVRegisterRfAiSS rfAiSSRegister =  rfAiSSRegisters.get(i);
+                     ST25DVRegisterRfAiSS.ST25DVSecurityStatusPWDControl pwdNbr = rfAiSSRegister.getSSPWDControl();
+                     TagHelper.ReadWriteProtection rwProtection =  rfAiSSRegister.getSSRWProtection();
+
+                       if(i == 0){
+                           if(rwProtection != READABLE_AND_WRITE_PROTECTED_BY_PWD){
+                               // 如果是区域1 ，初始化为可读写，入密码保护
+                               rfAiSSRegister.setSSReadWriteProtection(READABLE_AND_WRITE_PROTECTED_BY_PWD);
+                           }
+                           if(pwdNbr != Common.PWD_NBR){
+                               mST25DVTag.setPasswordNumber(i+1, PROTECTED_BY_PWD);
+                           }
+
+                           continue;
+                       }
+
+                     if(pwdNbr != Common.PWD_NBR){
+                         mST25DVTag.setPasswordNumber(i+1, PROTECTED_BY_PWD);
+                     }
+                     if(rwProtection != Common.READ_WRITE_PROTECTION){
+                         rfAiSSRegister.setSSReadWriteProtection(Common.READ_WRITE_PROTECTION);
+                     }
+                 }
+
+
+             /*    // 得到密码状态
                  ST25DVRegisterRfAiSS.ST25DVSecurityStatusPWDControl pwdNbr1 = rfAiSSRegister1.getSSPWDControl();
                  ST25DVRegisterRfAiSS.ST25DVSecurityStatusPWDControl pwdNbr2 = rfAiSSRegister2.getSSPWDControl();
                  ST25DVRegisterRfAiSS.ST25DVSecurityStatusPWDControl pwdNbr3 = rfAiSSRegister3.getSSPWDControl();
@@ -195,7 +230,7 @@ public class ST25DVActivity extends STFragmentActivity
                      mST25DVTag.setPasswordNumber(2,Common.PROTECTED_BY_PWD);
                      mST25DVTag.setPasswordNumber(3,Common.PROTECTED_BY_PWD);
                      mST25DVTag.setPasswordNumber(4,Common.PROTECTED_BY_PWD);
-                 }
+                 }*/
              } catch (STException e) {
                  switch (e.getError()) {
                      case TAG_NOT_IN_THE_FIELD:
@@ -296,7 +331,7 @@ public class ST25DVActivity extends STFragmentActivity
 
     private void enterNewPassword() {
         mCurrentAction = STType5PwdDialogFragment.STPwdAction.ENTER_NEW_PWD;
-        MyST25DVAreaSecurity.getInstance().changePassword(getSupportFragmentManager(), ST25DVTag.ST25DV_PASSWORD_3);
+        MyST25DVAreaSecurity.getInstance().changePassword(getSupportFragmentManager(), ST25DV_PASSWORD_3);
 /*   new Thread(new Runnable() {
             public void run() {
                 int passwordNumber = getSelectedPassword();
@@ -322,6 +357,7 @@ public class ST25DVActivity extends STFragmentActivity
                 STType5PwdDialogFragment pwdDialogFragment = STType5PwdDialogFragment.newInstance(
                         STType5PwdDialogFragment.STPwdAction.PRESENT_CURRENT_PWD,
                         ST25DVTag.ST25DV_CONFIGURATION_PASSWORD_ID,
+                     //   ST25DVTag.ST25DV_PASSWORD_3,
                         getResources().getString(R.string.enter_configuration_pwd));
                 pwdDialogFragment.show(getSupportFragmentManager(), "pwdDialogFragment");
             }

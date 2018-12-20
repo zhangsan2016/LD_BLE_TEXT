@@ -1,6 +1,7 @@
 package example.ldgd.com.checknfc.generic.util;
 
 import com.st.st25sdk.TagHelper;
+import com.st.st25sdk.type5.st25dv.ST25DVRegisterRfAiSS;
 import com.st.st25sdk.type5.st25dv.ST25DVTag;
 
 import static com.st.st25sdk.TagHelper.ReadWriteProtection.READ_AND_WRITE_PROTECTED_BY_PWD;
@@ -16,7 +17,7 @@ public class Common {
     /**
      *  设置四个区域的密码，有三个可选(ST25DVTag.ST25DV_PASSWORD_1;)
      */
-  //  public final static ST25DVRegisterRfAiSS.ST25DVSecurityStatusPWDControl PROTECTED_BY_PWD = ST25DVRegisterRfAiSS.ST25DVSecurityStatusPWDControl.PROTECTED_BY_PWD2;
+    public final static ST25DVRegisterRfAiSS.ST25DVSecurityStatusPWDControl PWD_NBR = ST25DVRegisterRfAiSS.ST25DVSecurityStatusPWDControl.PROTECTED_BY_PWD3;
     public final static int PROTECTED_BY_PWD = ST25DVTag.ST25DV_PASSWORD_3;
 
     /**
