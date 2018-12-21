@@ -184,7 +184,6 @@ public class ST25DVActivity extends STFragmentActivity
                  rfAiSSRegisters.add(rfAiSSRegister3);
                  rfAiSSRegisters.add(rfAiSSRegister4);
 
-
                  for (int i = 0; i < 4; i++) {
                      ST25DVRegisterRfAiSS rfAiSSRegister =  rfAiSSRegisters.get(i);
                      ST25DVRegisterRfAiSS.ST25DVSecurityStatusPWDControl pwdNbr = rfAiSSRegister.getSSPWDControl();
