@@ -39,6 +39,8 @@ import com.st.st25sdk.NFCTag;
 import com.st.st25sdk.STException;
 import com.st.st25sdk.type5.Type5Tag;
 
+import example.ldgd.com.checknfc.generic.util.Common;
+
 
 public class SysFileType5Fragment extends STFragment {
 
@@ -149,7 +151,7 @@ public class SysFileType5Fragment extends STFragment {
         @Override
         protected Integer doInBackground(NFCTag... param) {
             if (mType5Tag != null) {
-                mTagName = mType5Tag.getName();
+                mTagName = Common.MYLD_DEVICE_NAME;
                 mTagDescription = mType5Tag.getDescription();
                 mTagType = mType5Tag.getTypeDescription();
 

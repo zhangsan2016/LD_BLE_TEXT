@@ -36,6 +36,8 @@ import android.widget.TextView;
 
 import com.ldgd.bletext.R;
 
+import example.ldgd.com.checknfc.generic.util.Common;
+
 
 /**
  * A dummy fragment representing a section of the app, but that simply displays dummy text.
@@ -95,7 +97,7 @@ public class STHeaderFragment extends STFragment {
 
         public void  run() {
             if (myTag != null) {
-                mTagName = myTag.getName();
+                mTagName = Common.MYLD_DEVICE_NAME;
                 mTagDescription = myTag.getDescription();
                 mTagType = myTag.getTypeDescription();
             }

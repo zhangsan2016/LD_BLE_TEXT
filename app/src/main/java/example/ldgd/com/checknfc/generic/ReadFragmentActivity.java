@@ -74,6 +74,7 @@ import example.ldgd.com.checknfc.fragment.PwdDialogFragment;
 import example.ldgd.com.checknfc.fragment.STFragment;
 import example.ldgd.com.checknfc.fragment.STType5PwdDialogFragment;
 import example.ldgd.com.checknfc.generic.util.CacheUtils;
+import example.ldgd.com.checknfc.generic.util.Common;
 import example.ldgd.com.checknfc.generic.util.LogUtil;
 import example.ldgd.com.checknfc.generic.util.UIHelper;
 
@@ -180,7 +181,7 @@ public class ReadFragmentActivity extends STFragmentActivity
         mNbrOfBytesEditText = (EditText) findViewById(R.id.nbrOfBytesEditText);
         mNbrOfBytesEditText.setText(String.valueOf(64));
 
-        toolbar.setTitle(getTag().getName());
+        toolbar.setTitle(Common.MYLD_DEVICE_NAME);
 
 
         // Retrieve parameters for start and UI configuration

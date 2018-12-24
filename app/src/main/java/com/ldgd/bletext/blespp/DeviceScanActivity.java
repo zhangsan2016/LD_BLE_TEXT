@@ -49,6 +49,8 @@ import com.ldgd.bletext.act.StatisticsActivity;
 
 import java.util.ArrayList;
 
+import example.ldgd.com.checknfc.generic.util.Common;
+
 import static android.os.Build.VERSION;
 import static android.os.Build.VERSION_CODES;
 
@@ -174,7 +176,8 @@ public class DeviceScanActivity extends ListActivity {
         final BluetoothDevice device = mLeDeviceListAdapter.getDevice(position);
         if (device == null) return;
         final Intent intent = new Intent(this, StatisticsActivity.class);
-        intent.putExtra(StatisticsActivity.EXTRAS_DEVICE_NAME, device.getName());
+       //intent.putExtra(StatisticsActivity.EXTRAS_DEVICE_NAME, device.getName());
+        intent.putExtra(StatisticsActivity.EXTRAS_DEVICE_NAME, Common.MYLD_DEVICE_NAME);
         intent.putExtra(StatisticsActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress());
 
 /*        final Intent intent = new Intent(this, FunctionActivity.class);

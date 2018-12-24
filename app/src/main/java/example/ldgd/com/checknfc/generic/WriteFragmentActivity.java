@@ -58,6 +58,7 @@ import com.st.st25sdk.STLog;
 
 import example.ldgd.com.checknfc.fragment.STFragment;
 import example.ldgd.com.checknfc.generic.util.CacheUtils;
+import example.ldgd.com.checknfc.generic.util.Common;
 
 public class WriteFragmentActivity extends STFragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener, STFragment.STFragmentListener, View.OnClickListener {
@@ -130,7 +131,7 @@ public class WriteFragmentActivity extends STFragmentActivity
 
         mHandler = new Handler();
 
-        toolbar.setTitle(getTag().getName());
+        toolbar.setTitle(Common.MYLD_DEVICE_NAME);
 
         btWriteByPositionBytes = (Button) this.findViewById(R.id.bt_write_by_position_bytes);
         btWriteByPositionBytes.setOnClickListener(this);

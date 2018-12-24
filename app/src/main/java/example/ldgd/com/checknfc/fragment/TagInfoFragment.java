@@ -37,6 +37,8 @@ import com.ldgd.bletext.R;
 import com.st.st25sdk.NFCTag;
 import com.st.st25sdk.STException;
 
+import example.ldgd.com.checknfc.generic.util.Common;
+
 
 public class TagInfoFragment extends STFragment {
 
@@ -126,10 +128,14 @@ public class TagInfoFragment extends STFragment {
 
             if (myTag != null) {
                 try {
-                    mTagName = myTag.getName().substring(0,4);
+                  //  myTag.setName("LD_NFC");
+                 //   mTagName = myTag.getName().substring(0,4);
+                    mTagName = Common.MYLD_DEVICE_NAME;
                     mTagDescription = myTag.getDescription();
                     mTagType = myTag.getTypeDescription();
                   //  mManufacturerName = ": " + myTag.getManufacturerName();
+                   // myTag.getManufacturerName()
+
                     mManufacturerName = ": " +  "深圳洛丁光电";
                     mUid = ": " + myTag.getUidString();
                     mTagSize = ": " + String.valueOf(myTag.getMemSizeInBytes()) + " bytes";

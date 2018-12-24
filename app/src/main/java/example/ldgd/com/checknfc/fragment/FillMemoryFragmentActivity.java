@@ -64,6 +64,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import example.ldgd.com.checknfc.generic.STFragmentActivity;
+import example.ldgd.com.checknfc.generic.util.Common;
 
 public class FillMemoryFragmentActivity extends STFragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener, STFragment.STFragmentListener, View.OnClickListener {
@@ -116,7 +117,7 @@ public class FillMemoryFragmentActivity extends STFragmentActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getTag().getName());
+        getSupportActionBar().setTitle(Common.MYLD_DEVICE_NAME);
 
         mFloatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
         mFloatingActionButton.setOnClickListener(this);

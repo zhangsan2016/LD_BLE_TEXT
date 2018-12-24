@@ -14,6 +14,9 @@ import static com.st.st25sdk.TagHelper.ReadWriteProtection.READ_AND_WRITE_PROTEC
 
 public class Common {
 
+
+    public final static String MYLD_DEVICE_NAME = "LD_NFC";
+
     /**
      *  设置四个区域的密码，有三个可选(ST25DVTag.ST25DV_PASSWORD_1;)
      */

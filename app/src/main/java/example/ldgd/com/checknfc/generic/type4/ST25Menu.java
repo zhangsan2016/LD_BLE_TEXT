@@ -37,6 +37,8 @@ import com.st.st25sdk.NFCTag;
 import java.util.ArrayList;
 import java.util.List;
 
+import example.ldgd.com.checknfc.generic.util.Common;
+
 public class ST25Menu {
 
   private static ST25Menu mMenu;
@@ -53,7 +55,7 @@ public class ST25Menu {
         }
 
         tagName = tag.getName();
-        setProductName(tagName);
+        setProductName(Common.MYLD_DEVICE_NAME);
 
         if ((tagName.contains("ST25DV")) || (tagName.contains("ST25TV64K"))) {
             mMenu = new ST25DVMenu(tag);

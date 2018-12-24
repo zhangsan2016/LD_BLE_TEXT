@@ -62,6 +62,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import example.ldgd.com.checknfc.fragment.STFragment;
+import example.ldgd.com.checknfc.generic.util.Common;
 
 public class DumpMemoryFragmentActivity extends STFragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener, STFragment.STFragmentListener, View.OnClickListener {
@@ -140,8 +141,8 @@ public class DumpMemoryFragmentActivity extends STFragmentActivity
         mDestinationFileEditText.setText(R.string.memory_dump_default_file_name);
 
         mHandler = new Handler();
-
-        toolbar.setTitle(getTag().getName());
+        getTag().setName(Common.MYLD_DEVICE_NAME);
+        toolbar.setTitle(Common.MYLD_DEVICE_NAME);
 
         if (mApiVersion >= Build.VERSION_CODES.M) {
             // READ_EXTERNAL_STORAGE and WRITE_EXTERNAL_STORAGE are in the same permission

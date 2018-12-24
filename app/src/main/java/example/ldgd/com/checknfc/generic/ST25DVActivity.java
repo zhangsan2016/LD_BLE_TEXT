@@ -95,7 +95,7 @@ public class ST25DVActivity extends STFragmentActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(mST25DVTag.getName());
+        getSupportActionBar().setTitle(Common.MYLD_DEVICE_NAME);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

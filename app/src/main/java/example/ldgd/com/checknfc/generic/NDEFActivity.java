@@ -88,6 +88,7 @@ import example.ldgd.com.checknfc.fragment.NDEFWifiFragment;
 import example.ldgd.com.checknfc.fragment.PwdDialogFragment;
 import example.ldgd.com.checknfc.fragment.STFragment;
 import example.ldgd.com.checknfc.fragment.STType5PwdDialogFragment;
+import example.ldgd.com.checknfc.generic.util.Common;
 import example.ldgd.com.checknfc.generic.util.STProgressDialog;
 import example.ldgd.com.checknfc.generic.util.UIHelper;
 
@@ -149,7 +150,7 @@ public class NDEFActivity extends STFragmentActivity implements NavigationView.O
         setContentView(R.layout.default_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getTag().getName());
+        getSupportActionBar().setTitle(Common.MYLD_DEVICE_NAME);
 
 
         mFragmentManager = getSupportFragmentManager();

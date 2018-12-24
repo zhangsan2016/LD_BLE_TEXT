@@ -38,6 +38,8 @@ import com.ldgd.bletext.R;
 import com.st.st25sdk.NFCTag;
 import com.st.st25sdk.STException;
 
+import example.ldgd.com.checknfc.generic.util.Common;
+
 
 public class CCFileType5Fragment extends STFragment {
 
@@ -132,8 +134,10 @@ public class CCFileType5Fragment extends STFragment {
         @Override
         protected Integer doInBackground(NFCTag... param) {
             if (myTag != null) {
+                myTag.setName(Common.MYLD_DEVICE_NAME);
                 mTagName = myTag.getName();
                 mTagDescription = myTag.getDescription();
+
                 mTagType = myTag.getTypeDescription();
                 try {
                     mLength = String.format("%d", myTag.getCCFileLength());

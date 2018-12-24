@@ -304,6 +304,7 @@ public class MainActivity extends AppCompatActivity
 
         mTag = nfcTag;
 
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         Menu menu = navigationView.getMenu();
 
