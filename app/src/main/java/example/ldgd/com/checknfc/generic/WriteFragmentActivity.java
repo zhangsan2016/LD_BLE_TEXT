@@ -33,6 +33,7 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -53,15 +54,19 @@ import android.widget.Toast;
 
 import com.ldgd.bletext.R;
 import com.st.st25sdk.Helper;
+import com.st.st25sdk.MultiAreaInterface;
 import com.st.st25sdk.STException;
 import com.st.st25sdk.STLog;
+import com.st.st25sdk.type5.st25dv.ST25DVTag;
 
+import example.ldgd.com.checknfc.activity.MyPwdDialogFragment;
+import example.ldgd.com.checknfc.fragment.PwdDialogFragment;
 import example.ldgd.com.checknfc.fragment.STFragment;
 import example.ldgd.com.checknfc.generic.util.CacheUtils;
 import example.ldgd.com.checknfc.generic.util.Common;
 
 public class WriteFragmentActivity extends STFragmentActivity
-        implements NavigationView.OnNavigationItemSelectedListener, STFragment.STFragmentListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, STFragment.STFragmentListener, View.OnClickListener  , MyPwdDialogFragment.STType5PwdDialogListener{
 
     // Set here the Toolbar to use for this activity
   //  private ST25Menu mMenu;
@@ -91,6 +96,9 @@ public class WriteFragmentActivity extends STFragmentActivity
     private Button btWriteByPositionBytes;
 
 
+    private  ST25DVTag myTag;
+    FragmentManager mFragmentManager;
+
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -101,11 +109,14 @@ public class WriteFragmentActivity extends STFragmentActivity
         View childView = getLayoutInflater().inflate(R.layout.fragment_write_memory, null);
         frameLayout.addView(childView);
 
+        myTag = (ST25DVTag) MainActivity.getTag();
         if (super.getTag() == null) {
             showToast(R.string.invalid_tag);
             goBackToMainActivity();
             return;
         }
+
+        mFragmentManager = getSupportFragmentManager();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -135,6 +146,32 @@ public class WriteFragmentActivity extends STFragmentActivity
 
         btWriteByPositionBytes = (Button) this.findViewById(R.id.bt_write_by_position_bytes);
         btWriteByPositionBytes.setOnClickListener(this);
+
+        presentPassword();
+    }
+
+
+    private void presentPassword() {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                MyPwdDialogFragment.STPwdAction pwdAction = MyPwdDialogFragment.STPwdAction.PRESENT_CURRENT_PWD;
+                String message = " 输入区密码";
+
+                int passwordNumber = ST25DVTag.ST25DV_CONFIGURATION_PASSWORD_ID;
+                try {
+                    passwordNumber = myTag.getPasswordNumber(MultiAreaInterface.AREA4);
+                } catch (STException e) {
+                    e.printStackTrace();
+                }
+                // 参数 pwdAction : Dialog标识，passwordNumber ：得到的当前密码，message ： Dialog提示消息
+                MyPwdDialogFragment pwdDialogFragment = MyPwdDialogFragment.newInstance(pwdAction, passwordNumber, message);
+                pwdDialogFragment.show(mFragmentManager, "pwdDialogFragment");
+
+            }
+        }.start();
+
     }
 
 
@@ -180,6 +217,16 @@ public class WriteFragmentActivity extends STFragmentActivity
     public boolean onNavigationItemSelected(MenuItem item) {
        // return mMenu.selectItem(this, item);
     return false;
+    }
+
+    @Override
+    public void onSTType5PwdDialogFinish(int result) {
+        Log.v(TAG, "onSTType5PwdDialogFinish. result = " + result);
+        if (result == PwdDialogFragment.RESULT_OK) {
+            showToast(R.string.present_pwd_succeeded);
+        } else {
+            Log.e(TAG, "Action failed! Tag not updated!");
+        }
     }
 
     class ContentView implements Runnable {
