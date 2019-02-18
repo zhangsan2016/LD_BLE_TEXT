@@ -70,9 +70,9 @@ import com.st.st25sdk.type5.st25dv.ST25DVTag;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import example.ldgd.com.checknfc.activity.MyPwdDialogFragment;
 import example.ldgd.com.checknfc.fragment.PwdDialogFragment;
 import example.ldgd.com.checknfc.fragment.STFragment;
-import example.ldgd.com.checknfc.fragment.STType5PwdDialogFragment;
 import example.ldgd.com.checknfc.generic.util.CacheUtils;
 import example.ldgd.com.checknfc.generic.util.Common;
 import example.ldgd.com.checknfc.generic.util.LogUtil;
@@ -81,7 +81,7 @@ import example.ldgd.com.checknfc.generic.util.UIHelper;
 import static com.st.st25sdk.MultiAreaInterface.AREA1;
 
 public class ReadFragmentActivity extends STFragmentActivity
-        implements NavigationView.OnNavigationItemSelectedListener, STFragment.STFragmentListener, View.OnClickListener , STType5PwdDialogFragment.STType5PwdDialogListener{
+        implements NavigationView.OnNavigationItemSelectedListener, STFragment.STFragmentListener, View.OnClickListener , MyPwdDialogFragment.STType5PwdDialogListener{
 
     // Set here the Toolbar to use for this activity
     private int toolbar_res = R.menu.toolbar_empty;
@@ -255,7 +255,7 @@ public class ReadFragmentActivity extends STFragmentActivity
             @Override
             public void run() {
                 super.run();
-                STType5PwdDialogFragment.STPwdAction pwdAction = STType5PwdDialogFragment.STPwdAction.PRESENT_CURRENT_PWD;
+                MyPwdDialogFragment.STPwdAction pwdAction = MyPwdDialogFragment.STPwdAction.PRESENT_CURRENT_PWD;
                 String message = " 输入区密码";
 
                 int passwordNumber = ST25DVTag.ST25DV_CONFIGURATION_PASSWORD_ID;
@@ -265,7 +265,7 @@ public class ReadFragmentActivity extends STFragmentActivity
                     e.printStackTrace();
                 }
                 // 参数 pwdAction : Dialog标识，passwordNumber ：得到的当前密码，message ： Dialog提示消息
-                STType5PwdDialogFragment pwdDialogFragment = STType5PwdDialogFragment.newInstance(pwdAction, passwordNumber, message);
+                MyPwdDialogFragment pwdDialogFragment = MyPwdDialogFragment.newInstance(pwdAction, passwordNumber, message);
                 pwdDialogFragment.show(mFragmentManager, "pwdDialogFragment");
 
             }
