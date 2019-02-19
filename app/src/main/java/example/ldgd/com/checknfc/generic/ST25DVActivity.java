@@ -48,6 +48,7 @@ import com.st.st25sdk.type5.st25dv.ST25DVTag;
 import java.util.ArrayList;
 import java.util.List;
 
+import example.ldgd.com.checknfc.activity.MyPwdDialogFragment;
 import example.ldgd.com.checknfc.adapter.STPagerAdapter;
 import example.ldgd.com.checknfc.fragment.PwdDialogFragment;
 import example.ldgd.com.checknfc.fragment.STFragment;
@@ -63,7 +64,7 @@ import static example.ldgd.com.checknfc.fragment.STType5PwdDialogFragment.STPwdA
 import static example.ldgd.com.checknfc.generic.util.Common.PROTECTED_BY_PWD;
 
 public class ST25DVActivity extends STFragmentActivity
-        implements NavigationView.OnNavigationItemSelectedListener, STFragment.STFragmentListener, STType5PwdDialogFragment.STType5PwdDialogListener {
+        implements NavigationView.OnNavigationItemSelectedListener, STFragment.STFragmentListener, MyPwdDialogFragment.STType5PwdDialogListener {
 
     // Set here the Toolbar to use for this activity
     private int toolbar_res = R.menu.toolbar_empty;
@@ -353,11 +354,13 @@ public class ST25DVActivity extends STFragmentActivity
         // Warning: Function called from background thread! Post a request to the UI thread
         runOnUiThread(new Runnable() {
             public void run() {
-                STType5PwdDialogFragment pwdDialogFragment = STType5PwdDialogFragment.newInstance(
-                        STType5PwdDialogFragment.STPwdAction.PRESENT_CURRENT_PWD,
+                MyPwdDialogFragment pwdDialogFragment = MyPwdDialogFragment.newInstance(
+                        MyPwdDialogFragment.STPwdAction.PRESENT_CURRENT_PWD,
                         ST25DVTag.ST25DV_CONFIGURATION_PASSWORD_ID,
                      //   ST25DVTag.ST25DV_PASSWORD_3,
-                        getResources().getString(R.string.enter_configuration_pwd));
+                     // getResources().getString(R.string.enter_configuration_pwd));
+                        getResources().getString(R.string.enter_configuration_pwd2));
+
                 pwdDialogFragment.show(getSupportFragmentManager(), "pwdDialogFragment");
             }
         });

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#01B087">
+    android:background="#39A9DB">
 
     <RelativeLayout
         android:id="@+id/messageLayout"
