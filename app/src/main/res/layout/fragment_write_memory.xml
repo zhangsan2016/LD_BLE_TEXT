@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:ems="3"
+            android:focusable="false"
             android:id="@+id/byteAddressEditText"
             android:layout_weight="2"/>
     </LinearLayout>
@@ -52,6 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
+            android:focusable="false"
             android:ems="3"
             android:id="@+id/byteValueEditText"
             android:layout_weight="2"/>
