@@ -36,6 +36,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ListView;
 
 import com.ldgd.bletext.R;
@@ -83,6 +85,10 @@ public class ST25DVActivity extends STFragmentActivity
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 去掉窗口标题
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+       // 隐藏顶部的状态栏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.pager_layout);
 
         if (super.getTag() instanceof ST25DVTag) {

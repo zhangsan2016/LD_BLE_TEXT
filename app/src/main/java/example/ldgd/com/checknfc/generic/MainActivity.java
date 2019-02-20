@@ -43,6 +43,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -93,7 +95,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // 去掉窗口标题
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+       // 隐藏顶部的状态栏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.default_layout);
+
         mResources = getResources();
         // Inflate content of FrameLayout
         FrameLayout frameLayout=(FrameLayout) findViewById(R.id.frame_content);

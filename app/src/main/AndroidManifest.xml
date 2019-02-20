@@ -71,7 +71,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
-<!-- NFC 模块界面-->
+        <!-- NFC 模块界面 -->
         <activity
             android:name="example.ldgd.com.checknfc.generic.MainActivity"
             android:label="@string/app_name"
