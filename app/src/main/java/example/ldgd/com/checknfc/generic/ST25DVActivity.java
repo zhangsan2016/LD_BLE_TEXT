@@ -52,16 +52,16 @@ import example.ldgd.com.checknfc.activity.MyPwdDialogFragment;
 import example.ldgd.com.checknfc.adapter.STPagerAdapter;
 import example.ldgd.com.checknfc.fragment.PwdDialogFragment;
 import example.ldgd.com.checknfc.fragment.STFragment;
-import example.ldgd.com.checknfc.fragment.STType5PwdDialogFragment;
 import example.ldgd.com.checknfc.generic.type4.ST25Menu;
 import example.ldgd.com.checknfc.generic.util.Common;
 import example.ldgd.com.checknfc.generic.util.UIHelper;
 
 import static com.st.st25sdk.TagHelper.ReadWriteProtection.READABLE_AND_WRITE_PROTECTED_BY_PWD;
 import static com.st.st25sdk.type5.st25dv.ST25DVTag.ST25DV_PASSWORD_3;
-import static example.ldgd.com.checknfc.fragment.STType5PwdDialogFragment.STPwdAction.INIT_NFC;
-import static example.ldgd.com.checknfc.fragment.STType5PwdDialogFragment.STPwdAction.KILL_TAG;
+import static example.ldgd.com.checknfc.activity.MyPwdDialogFragment.STPwdAction.INIT_NFC;
+import static example.ldgd.com.checknfc.activity.MyPwdDialogFragment.STPwdAction.KILL_TAG;
 import static example.ldgd.com.checknfc.generic.util.Common.PROTECTED_BY_PWD;
+
 
 public class ST25DVActivity extends STFragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener, STFragment.STFragmentListener, MyPwdDialogFragment.STType5PwdDialogListener {
@@ -79,7 +79,7 @@ public class ST25DVActivity extends STFragmentActivity
     private SlidingTabLayout mSlidingTabLayout;
 
     ListView lv;
-    private STType5PwdDialogFragment.STPwdAction mCurrentAction;
+    private MyPwdDialogFragment.STPwdAction mCurrentAction;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,7 +145,7 @@ public class ST25DVActivity extends STFragmentActivity
             @Override
             public void run() {
                 super.run();
-                STType5PwdDialogFragment.STPwdAction pwdAction = STType5PwdDialogFragment.STPwdAction.PRESENT_CURRENT_PWD;
+                MyPwdDialogFragment.STPwdAction pwdAction = MyPwdDialogFragment.STPwdAction.PRESENT_CURRENT_PWD;
                 String message = " 输入区密码";
 
                 int passwordNumber = ST25DVTag.ST25DV_CONFIGURATION_PASSWORD_ID;
@@ -155,7 +155,7 @@ public class ST25DVActivity extends STFragmentActivity
                     e.printStackTrace();
                 }
                 // 参数 pwdAction : Dialog标识，passwordNumber ：得到的当前密码，message ： Dialog提示消息
-                STType5PwdDialogFragment pwdDialogFragment = STType5PwdDialogFragment.newInstance(pwdAction, passwordNumber, message);
+                MyPwdDialogFragment pwdDialogFragment = MyPwdDialogFragment.newInstance(pwdAction, passwordNumber, message);
                 mCurrentAction = KILL_TAG;
                 pwdDialogFragment.show(getSupportFragmentManager(), "pwdDialogFragment");
 
@@ -249,7 +249,7 @@ public class ST25DVActivity extends STFragmentActivity
      }).start();
     }
 
-    public void setmCurrentAction(STType5PwdDialogFragment.STPwdAction mCurrentAction) {
+    public void setmCurrentAction(MyPwdDialogFragment.STPwdAction mCurrentAction) {
         this.mCurrentAction = mCurrentAction;
     }
 
@@ -330,7 +330,7 @@ public class ST25DVActivity extends STFragmentActivity
 
 
     private void enterNewPassword() {
-        mCurrentAction = STType5PwdDialogFragment.STPwdAction.ENTER_NEW_PWD;
+        mCurrentAction = MyPwdDialogFragment.STPwdAction.ENTER_NEW_PWD;
         MyST25DVAreaSecurity.getInstance().changePassword(getSupportFragmentManager(), ST25DV_PASSWORD_3);
 /*   new Thread(new Runnable() {
             public void run() {

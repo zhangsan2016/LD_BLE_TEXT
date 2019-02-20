@@ -534,7 +534,12 @@ public class MyPwdDialogFragment extends DialogFragment {
             Log.v(TAG, "writePassword");
 
             try {
-                byte[] password = getPasswordTypedByUser();
+
+                //     byte[] password = getPasswordTypedByUser();
+                EditText etPwd = (EditText) mCurFragmentView.findViewById(R.id.txt_pass_word);
+                String strPwd = etPwd.getText().toString().trim();
+                byte[] password = StringUtil.stringToArray(strPwd);
+
 
                 mSTType5PasswordInterface.writePassword(mPasswordNumber, password);
                 // Password updated successfully

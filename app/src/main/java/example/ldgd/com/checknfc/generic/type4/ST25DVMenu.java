@@ -36,7 +36,7 @@ import com.st.st25sdk.NFCTag;
 import com.st.st25sdk.type5.st25dv.ST25DVTag;
 import com.st.st25sdk.type5.st25dv.ST25TV64KTag;
 
-import example.ldgd.com.checknfc.fragment.STType5PwdDialogFragment;
+import example.ldgd.com.checknfc.activity.MyPwdDialogFragment;
 import example.ldgd.com.checknfc.generic.MyST25DVAreaSecurity;
 import example.ldgd.com.checknfc.generic.ST25DVActivity;
 
@@ -124,7 +124,7 @@ public class ST25DVMenu extends ST25Menu {
               //  Toast.makeText(activity,"area_security_status_management",Toast.LENGTH_SHORT).show();
                 // 先验证密码再ST25DVActivity中返回结果做判断是否验证成功，成功才显示修改密码界面
                 ST25DVActivity st25DVActivity = (ST25DVActivity) activity;
-                st25DVActivity.setmCurrentAction(STType5PwdDialogFragment.STPwdAction.PRESENT_CURRENT_PWD);
+                st25DVActivity.setmCurrentAction(MyPwdDialogFragment.STPwdAction.PRESENT_CURRENT_PWD);
                 MyST25DVAreaSecurity.getInstance().presentPassword(st25DVActivity.getSupportFragmentManager(), ST25DVTag.ST25DV_PASSWORD_3);
 
                 break;

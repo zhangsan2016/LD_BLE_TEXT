@@ -8,7 +8,7 @@ import com.st.st25sdk.TagHelper;
 import com.st.st25sdk.type5.st25dv.ST25DVRegisterRfAiSS;
 import com.st.st25sdk.type5.st25dv.ST25DVTag;
 
-import example.ldgd.com.checknfc.fragment.STType5PwdDialogFragment;
+import example.ldgd.com.checknfc.activity.MyPwdDialogFragment;
 import example.ldgd.com.checknfc.generic.util.LogUtil;
 
 /**
@@ -148,9 +148,9 @@ public class MyST25DVAreaSecurity {
                 String message = "请输入新的密码";
 
                 // 枚举类型，验证当前密码
-                STType5PwdDialogFragment.STPwdAction   mCurrentAction = STType5PwdDialogFragment.STPwdAction.ENTER_NEW_PWD;
+                MyPwdDialogFragment.STPwdAction   mCurrentAction = MyPwdDialogFragment.STPwdAction.ENTER_NEW_PWD;
 
-                STType5PwdDialogFragment pwdDialogFragment = STType5PwdDialogFragment.newInstance(mCurrentAction, passwordNumber, message);
+                MyPwdDialogFragment pwdDialogFragment = MyPwdDialogFragment.newInstance(mCurrentAction, passwordNumber, message);
                 pwdDialogFragment.show(mFragmentManager, "pwdDialogFragment");
 
             }
@@ -169,11 +169,11 @@ public class MyST25DVAreaSecurity {
             public void run() {
 
                 // 枚举类型，验证当前密码
-                STType5PwdDialogFragment.STPwdAction pwdAction = STType5PwdDialogFragment.STPwdAction.PRESENT_CURRENT_PWD;
+                MyPwdDialogFragment.STPwdAction pwdAction = MyPwdDialogFragment.STPwdAction.PRESENT_CURRENT_PWD;
                 String message = "请输入当前密码";
 
                 // 参数 pwdAction : Dialog标识，passwordNumber ：得到的当前密码，message ： Dialog提示消息
-                STType5PwdDialogFragment pwdDialogFragment = STType5PwdDialogFragment.newInstance(pwdAction, passwordNumber, message);
+                MyPwdDialogFragment pwdDialogFragment = MyPwdDialogFragment.newInstance(pwdAction, passwordNumber, message);
                 pwdDialogFragment.show(mFragmentManager, "pwdDialogFragment");
             }
         }).start();
