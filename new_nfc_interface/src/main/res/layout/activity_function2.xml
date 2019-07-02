@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".blespp.BleSppActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send ： " />
+
+        <EditText
+            android:id="@+id/et_send_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="00000000000000000000"
+            android:textSize="10sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" " />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="持续发送间隔( * 100 毫秒)" />
+
+        <EditText
+            android:id="@+id/et_sendTimeInterval"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="@string/sendTimeInterval"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发包数" />
+
+            <EditText
+                android:id="@+id/et_sendbao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sendCount"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="无效包" />
+
+            <EditText
+                android:id="@+id/et_sendwuxiaobao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sendByteCount"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="丢包数" />
+
+            <EditText
+                android:id="@+id/et_losebao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sendCount"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="有效包" />
+
+            <EditText
+                android:id="@+id/et_recyouxiaobao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sendByteCount"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/sendOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开启定时发送信息" />
+
+    <Button
+        android:id="@+id/sendPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="停止发送"></Button>
+
+    <Button
+        android:id="@+id/reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="重新开始计数"></Button>
+
+
+    <!--<TextView
+        android:padding="5dp"
+        android:id="@+id/tv_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="false"
+        android:background="@drawable/edit_box_bg"
+        android:maxLines="10000"
+        android:scrollbars="vertical"
+        android:text="file content is empty!" />-->
+
+ <!--   <TextView
+        android:id="@id/data_read_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0"
+        android:background="@drawable/edit_box_bg"
+        android:maxLines="10000"
+        android:scrollbars="vertical"
+        android:textSize="@dimen/small_text_size" />-->
+
+    <TextView
+        android:padding="5dp"
+        android:id="@+id/tv_message"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="false"
+        android:background="@drawable/edit_box_bg"
+        android:maxLines="10000"
+        android:scrollbars="vertical"
+        android:text="file content is empty!" />
+
+    <ScrollView
+
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="18dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

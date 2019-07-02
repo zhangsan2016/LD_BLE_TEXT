@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="device_name_text" type="id"/>
+    <item name="byte_received_text" type="id"/>
+    <item name="data_received_format" type="id"/>
+    <item name="clean_data_btn" type="id"/>
+    <item name="data_edit_box" type="id"/>
+    <item name="byte_send_text" type="id"/>
+    <item name="data_sended_format" type="id"/>
+    <item name="send_data_btn" type="id"/>
+    <item name="scan_device_btn" type="id"/>
+    <item name="data_read_text" type="id"/>
+    <item name="device_name" type="id"/>
+    <item name="device_address" type="id"/>
+    <item name="clean_text_btn" type="id"/>
+    <item name="notify_speed_text" type="id"/>
+
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+
+    <color name="light_blue">#33adff</color>
+    <color name="orange">#ff7e00</color>
+    <color name="white">#ffffff</color>
+    <color name="light_grey">#dadada</color>
+
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+
+    <color name="indicatorColors">#79acae</color>
+    <color name="tabBackgroundColor">#D4D4D4</color>
+    <color name="tabTextColor">#273737</color>
+
+
+
+</resources>
